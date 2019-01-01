@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>groupId</groupId>
+    <artifactId>mmrlearning</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <!-- 当前工程的所有子模型
+         内部写子模型的artifactID
+    -->
+    <modules>
+        <module>basicknowledge</module>
+        <module>basicknowledge</module>  <!--Java基础知识学习 -->
+    </modules>
+
+    <!-- 自定义变量 -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>11.0.1</java.version>
+        <slf4j.version>1.7.25</slf4j.version>
+        <springboot.version>2.0.4.RELEASE</springboot.version>
+    </properties>
+
+    <!--
+       compile：这是它的默认值，这种类型很容易让人产生误解，以为只有在编译的时候才是需要的，其实这种类型表示所有的情况都是有用的，包括编译和运行时。而且这种类型的依赖性是可以传递的。
+       provided：这个跟compile很类似，但是它表示你期望这个依赖项目在运行时由JDK或者容器来提供。这种类型表示该依赖只有在测试和编译的情况下才有效，在运行时将由JDK或者容器提供。这种类型的依赖性是不可传递的。
+                 或者类似lombok
+       runtime：这种类型表示该依赖在编译的时候不是必须的，只有在运行的时候才是必须的。
+       test：这表示这种依赖只有测试的时候才需要，正常情况下是不需要的。
+       import：关于import的介绍，可以看后文中对引入依赖项的介绍。
+       system：这种类型跟provided类似，唯一不同的就是这种类型的依赖我们要自己提供jar包，这需要与另一个元素systemPath来结合使用。systemPath将指向我们系统上的jar包的路径，而且必须是给定的绝对路径。
+       比如
+               <dependency>
+                 <groupId>sun.jdk</groupId>
+                 <artifactId>tools</artifactId>
+                 <version>1.5.0</version>
+                 <scope>system</scope>
+                 <systemPath>${java.home}/../lib/tools.jar</systemPath>
+               </dependency>
+               这个system是默认的，但一般我们也没有刻意的去写<systemPath>，所以我估计默认把路径指向了maven下载的jar包。
+               所以我们自己写的jar包也可以通过这种方式去被引用
+   -->
+
+    <!-- 只是申明依赖，并非引用依赖(类似接口) -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- 可执行的基于SpringMVC的Web应用 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+
+            <!-- Mysql -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>6.0.6</version>
+            </dependency>
+
+            <!-- lombok (这里之所以用provided，是因为lombok代码只在编译前有效，编译生成的class文件中已经将对应的 方法修改成get和set了，因此没必要将lombok对应的jar包打入apk中) -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.2</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>2.0.4.RELEASE</version>
+                <scope>test</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.11</source>
+                    <target>1.11</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
