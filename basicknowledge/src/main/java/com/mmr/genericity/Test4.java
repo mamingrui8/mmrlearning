@@ -1,6 +1,6 @@
 package com.mmr.genericity;
 
-import com.learn.learning.genericity.entity.Pair;
+import com.mmr.genericity.entity.Pair;
 
 /**
  * Created with IntelliJ IDEA.

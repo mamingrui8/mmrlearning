@@ -1,4 +1,4 @@
-package com.mmr.io;
+package com.mmr.io.bio;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,13 +38,17 @@ public class Client {
             pw = new PrintWriter(socket.getOutputStream(), true);
 
             while(true){
+                System.out.println("进入本次循环");
                 message = scanner.nextLine();
                 if(message.equals("exit")){
+                    System.out.println("客户端输入了exit，因此断开了连接");
                     break;
                 }
+                System.out.println("准备进入下次循环");
                 pw.println(message);
                 pw.flush();
-                System.out.println("Server: " + br.readLine());
+                System.out.println("我是客户端，接收到的数据如下: " + br.readLine()); //readLine()是一个阻塞函数，当没有数据读取时，就会一直阻塞在这里
+
             }
 
         }catch (IOException e){

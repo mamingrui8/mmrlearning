@@ -1,6 +1,6 @@
 package com.mmr.exception;
 
-import com.learn.learning.exception.util.ExceptionTools;
+import com.mmr.exception.util.ExceptionTools;
 
 /**
  * Created with IntelliJ IDEA.

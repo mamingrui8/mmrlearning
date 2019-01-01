@@ -17,7 +17,7 @@ import java.util.Random;
  * 学习: 调试技巧
  */
 public class Test8 {
-    private static final Logger LOGGER = LoggerFactory.getLogger("com.learn.learning.exception.Test8");
+    private static final Logger LOGGER = LoggerFactory.getLogger("com.mmr.exception.Test8");
 
     public static void main(String[] args){
 //        Random generator = new Random();
@@ -104,8 +104,8 @@ public class Test8 {
         //1. 直接作为字符串来输出
         //       可以发现，输出的结果包括以下三步:
         //       1. at java.lang.Thread.dumpStack(Thread.java:1329)  本Thread.dumapStack()被调用处
-        //       2. at com.learn.learning.exception.Test8.method6(Test8.java:100)
-        //       3. at com.learn.learning.exception.Test8.main(Test8.java:26)
+        //       2. at com.mmr.exception.Test8.method6(Test8.java:100)
+        //       3. at com.mmr.exception.Test8.main(Test8.java:26)
         //System.out.println(ps.toString());
 
         //2. 写入目标文件

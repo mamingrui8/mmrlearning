@@ -1,6 +1,6 @@
 package com.mmr.genericity;
 
-import com.learn.learning.genericity.entity.Pair;
+import com.mmr.genericity.entity.Pair;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -56,7 +56,7 @@ public class Test5 {
 
     /**
      *  案例1: 无限定类型，在擦除类型变量后，使用Object类替换类型变量。
-     *  比如 com.learn.learning.genericity.entity.Pair<T>  此类的原始类型如下所示:
+     *  比如 com.mmr.genericity.entity.Pair<T>  此类的原始类型如下所示:
      */
     public static void Test1(){
         class Pair {

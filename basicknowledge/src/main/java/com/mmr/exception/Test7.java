@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * Time: 17:49
  */
 public class Test7 {
-    public static final Logger LOG = LoggerFactory.getLogger("com.learn.learning.exception.Test7"); //具有给定名称的"日志记录器",我们人为规定此处使用包名+类名
+    public static final Logger LOG = LoggerFactory.getLogger("com.mmr.exception.Test7"); //具有给定名称的"日志记录器",我们人为规定此处使用包名+类名
 
     public static void main(String[] args){
         for(int i = 0; i< 10 ;i++){

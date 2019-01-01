@@ -1,29 +1,34 @@
-package com.mmr.io;
+package com.mmr.io.bio;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
+ * Description: BIO编程小案例---3   服务端升级
  * User: MaMingRui
  * Email: mamr@broada.com
- * Date: 2018年12月24日 22:42
+ * Date: 2019年01月01日 22:22
  * ModificationHistory: Who         When         What
  * ---------  --------     ---------------------------
+ * ThreadPool仅仅能让服务端的处理效率提高，本质上还是BIO
  */
-public class Server {
+public class ServerPool {
     public static void main(String[] args) {
         int port = genPort(args);
 
         ServerSocket server = null;
+        ExecutorService service = Executors.newFixedThreadPool(50); //TODO 在创建线程池时引入了SecurityManager的概念。
 
         try{
             server = new ServerSocket(port);
             System.out.println("Server started!");
             while (true) {
                 Socket socket = server.accept();
-                new Thread(new Handler(socket)).start();
+                service.execute(new Handler(socket));//只需要把携带有socket的任务丢给线程池即可，至于线程池如何创建线程，如何启动线程，根本不用操心。
             }
         }catch (IOException e){
             e.printStackTrace();
@@ -40,11 +45,12 @@ public class Server {
 
     static class Handler implements Runnable{
         Socket socket = null;
-        Handler(Socket socket){
+        public Handler(Socket socket){
             this.socket = socket;
         }
 
         @Override
+        @SuppressWarnings("Duplicates")
         public void run() {
             try{
                 BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
@@ -52,14 +58,24 @@ public class Server {
                 String readMessage = null;
                 while(true){
                     System.out.println("Server reading...");
-                    if((readMessage = reader.readLine()) == null){ //若接收道德数据不存在，则跳出循环
+                    if((readMessage = reader.readLine()) == null){ //若接收到不到任何数据，则跳出循环
+                        System.out.println("没有接受到任何数据，故跳出循环！");
                         break;
                     }
-                    writer.print("Server received: " + readMessage);
+                    System.out.println("我是服务端, 接收到的数据如下: " + readMessage);
+                    writer.println("Server received: " + readMessage);
                     writer.flush();
                 }
             }catch (IOException e){
                 e.printStackTrace();
+            }finally{
+                if(null != socket){
+                    try{
+                        socket.close();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
