@@ -6,9 +6,10 @@ import java.nio.ByteBuffer;
 import java.nio.channels.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
+import java.util.Scanner;
 
 /**
- * Description: 非阻塞
+ * Description: 非阻塞-服务端
  * User: MaMingRui
  * Email: mamr@broada.com
  * Date: 2019年01月02日 22:02
@@ -26,7 +27,7 @@ public class NIOServer implements Runnable{
     private ByteBuffer writeBuffer = ByteBuffer.allocate(1024);
 
     public static void main(String[] args) {
-
+        new Thread(new NIOServer(9999));
     }
 
     public NIOServer(int port){
@@ -111,6 +112,10 @@ public class NIOServer implements Runnable{
         SelectionKey是一个监听事件的集合。 是用于跟踪这些监听事件的句柄。 由于内含channel的ID，所以才能通过key.channel()来获取channel
      */
 
+    /**
+     * 阻塞操作
+     * @param key
+     */
     private void accept(SelectionKey key){
         try{
             //此通道是是先前在init()方法中注册到Selector多路复用器上的ServerSocketChannel
@@ -129,6 +134,7 @@ public class NIOServer implements Runnable{
 
 
     /**
+     * 读操作
      * Tips:
      * 1. channel.read(Buffer) 和Buffer.get(new byte[])  这两个方法都很有意思，前者将数据读取到Buffer缓存中，后者将Buffer缓存中的数据读取到字节数组中。和普通的赋值方法截然不同。
      * @author : MaMingrui
@@ -141,7 +147,7 @@ public class NIOServer implements Runnable{
             //获取通道
             SocketChannel channel = (SocketChannel)key.channel();
             //将通道中的数据读取到缓存中。 显然，通道中的数据就是客户端发送给服务器的数据
-            int readLength = channel.read(readBuffer);
+            int readLength = channel.read(readBuffer); //TODO channel.read是不是阻塞方法？
             if(readLength == -1){
                 //客户端没有发送任何的数据至服务端,因此服务端只好选择关闭通道
                 key.channel().close();
@@ -168,10 +174,35 @@ public class NIOServer implements Runnable{
         }catch(IOException e){
             try{
                 key.channel().close();
-                key.channel();
+                key.cancel();
             }catch(Exception e1){
                 e1.printStackTrace();
             }
+        }
+    }
+
+    /**
+     * 写操作
+     */
+    private void write(SelectionKey key){
+        //清空缓存
+        this.writeBuffer.clear();
+        //获取通道
+        SocketChannel channel = (SocketChannel) key.channel();
+        //获取控制台
+        Scanner scanner = new Scanner(System.in);
+
+        try{
+            System.out.println("请输入一些信息以发送给客户端吧！");
+            String line = scanner.nextLine();
+            //将控制台输入的字符穿写入至Buffer中，写入的数据是一个字节数组
+            writeBuffer.put(line.getBytes(StandardCharsets.UTF_8));
+            writeBuffer.flip(); //往Buffer中写入数据后，Buffer的游标会发生移动，为了保证后续往channel中写入数据 的准确性，我们在这里讲Buffer的游标重置
+            channel.write(writeBuffer);
+
+            channel.register(this.selector, SelectionKey.OP_READ);
+        }catch(IOException e){
+            e.printStackTrace();
         }
     }
 
