@@ -10,6 +10,8 @@ import java.util.Scanner;
 
 /**
  * Description: 非阻塞-服务端
+ * 问: 为什么NIO一定要借助buffer才能进行操作？
+ * 答: 因为本质上NIO所做的所有IO操作都是借助OS(操作系统)实现的，而操作系统需要借助buffer。
  * User: MaMingRui
  * Email: mamr@broada.com
  * Date: 2019年01月02日 22:02
