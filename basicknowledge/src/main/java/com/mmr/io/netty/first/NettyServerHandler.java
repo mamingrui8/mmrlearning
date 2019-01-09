@@ -2,7 +2,6 @@ package com.mmr.io.netty.first;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.nio.charset.StandardCharsets;
@@ -61,7 +60,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {  //这里
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception{
-        System.out.println("监听逻辑处理时，出现异常, 具体原因如下: " + cause.getMessage());
+        System.out.println("服务端监听逻辑处理时，出现异常, 具体原因如下: " + cause.toString());
         ctx.close();
     }
 }

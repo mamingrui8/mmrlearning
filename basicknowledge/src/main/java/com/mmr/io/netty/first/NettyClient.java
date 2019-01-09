@@ -69,7 +69,7 @@ public class NettyClient {
             Scanner scanner = null;
             while(true){
                 scanner = new Scanner(System.in);
-                System.out.print("enter message send to Server (enter 'exit' for close connect)");
+                System.out.print("enter message send to Server (enter 'exit' for close connect) >");
                 String line = scanner.nextLine();
                 if("exit".equals(line)){
                     //在客户端准备退出之前，会先将缓冲区内剩余的数据写入数据流中，接着再添加一个Listener
