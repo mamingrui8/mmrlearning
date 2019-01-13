@@ -66,8 +66,7 @@ public class NettyServer {
          * ChannelInitializer - 用于提供处理器的一个模型对象。
          * 其中定义了一个方法: initChannel()。 它用于初始化处理逻辑责任链条的。h
          * 好处如下：
-         * 1. 可以保证服务端的Bootstrap只初始化一次处理器，尽量提供处理逻辑的重用。
-         * 2. 避免反复的创建处理对象，节约资源开销。
+         * 1. 可以保证服务端的Bootstrap只初始化一次处理器，尽量提供处理逻辑的重用。避免反复的创建处理对象，节约资源开销。  (需要Handler处使用@Sharable 注解配合)
          */
         bootstrap.childHandler(new ChannelInitializer<SocketChannel>(){
             @Override
@@ -75,8 +74,9 @@ public class NettyServer {
                 socketChannel.pipeline().addLast(acceptorHandlers);
             }
         });
+
         //bind方法，用于绑定监听的端口  ServerBootstrap可以(允许)绑定多个监听端口。只需要多次调用bootstrap.bind()即可
-        //sync() - 开启监听逻辑。返回一个ChannelFuture。 返回的结果 顾名思义，代表着监听成功后对应的一个未来的结果。
+        //sync() - 开启监听逻辑。返回一个ChannelFuture。 返回的结果 顾名思义，代表着监听成功后对应的一个未来的结果。  显然，这是一个阻塞方法  TODO 多客户端时，sync()方法如何发挥作用呢？
         //后续所有服务端和客户端的交互，全都围绕着ChannelFutrue展开。
         ChannelFuture future = bootstrap.bind(port).sync();
         return future;

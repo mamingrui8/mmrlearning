@@ -16,6 +16,10 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  * ModificationHistory: Who         When         What
  * ---------  --------     ---------------------------
  */
+//  @Sharable注解 -
+// 代表当前的Handler是一个可分享的处理器，也就意味着，服务端注册此Handler后，可以分享给多个客户端同时使用。
+// 如果不使用@Sharable注解描述类型，则每次 客户端请求时，必须为客户端重新 创建一个Handler对象
+// 正是因为Handler对象被重用（分享）了，多个客户端共用，所以尽量不要在 Handler的实现类中定义可读的变量。 (比如: private String name;)
 @ChannelHandler.Sharable
 public class NettyServerHandler extends ChannelInboundHandlerAdapter {  //这里既可以implements ChannelHandler  ，也可以extends ChannelHandlerAdaptor
 
