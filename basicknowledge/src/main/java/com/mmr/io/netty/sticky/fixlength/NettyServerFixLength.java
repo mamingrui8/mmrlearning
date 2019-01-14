@@ -57,6 +57,10 @@ public class NettyServerFixLength {
             protected void initChannel(SocketChannel socketChannel) throws Exception {
                 ChannelHandler[] acceptHandlers = new ChannelHandler[3];
                 //定长Handler。通过构造参数设置消息发送的长度(单位是:字节 由于本文是utf-8编码，则能一次能够发送3个英文字母或1个中文)
+                //注意: 不同的字符集下，字节和字符之间的转换率不同
+                //      1. utf-8:  1个英文字母占用一个字节，一个中文字符(含繁体)占用3个字节
+                //      2. ascII:  1个英文字母占用一个字节，一个中文字符(含繁体)占用2个字节
+                //      3. unicode: 1个英文字母占用2个字节，一个中文字符(含繁体)占用2个字节
                 acceptHandlers[0] = new FixedLengthFrameDecoder(3);
                 // 字符串解码工具，它会自动处理channelRead()方法接收到的msg参数(包括编码)，并将ByteBuf类型的数据(这里指的就是msg啦)转换成字符串！ 若不传递任何参数，则当前文件的编码是默认编码
                 acceptHandlers[1] = new StringDecoder(StandardCharsets.UTF_8);
