@@ -26,6 +26,22 @@
             <version>4.1.32.Final</version>
         </dependency>
 
+        <!-- netty-codec 辅助包 像比如粘包处理方式 定长数据流等 方法类都是由它提供的-->
+        <!-- https://mvnrepository.com/artifact/io.netty/netty-codec-http -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-codec-http</artifactId>
+            <version>4.1.32.Final</version>
+        </dependency>
+
+
+        <!-- javaFaker -->
+        <!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>0.16</version>
+        </dependency>
 
 
         <dependency>

@@ -30,13 +30,16 @@ public class NettyServer {
      *  初始化服务端
      */
     private void init(){
-        //拿NIO去初始化 线程组
-        acceptorGroup = new NioEventLoopGroup();
+        //拿NIO去初始化线程组, 构建线程组时，若不传递任何参数，则默认构建的线程组线程数是CPU的核心数。
+        acceptorGroup = new NioEventLoopGroup(1);
         clientGroup = new NioEventLoopGroup();
         //初始化服务端配置
         bootstrap = new ServerBootstrap();
         //绑定线程组
-        bootstrap.group(acceptorGroup, clientGroup);  //这里的group是ServerBootstrap自己实现的，用于关联两个线程组
+        bootstrap.group(acceptorGroup, clientGroup);  //这里的group是ServerBootstrap自己实现的，用于关联两个线程组   若acceptorGroup监听线程组的线程数为1个，且 clientGroup()(Runnable task)线程组的线程数为多个时，这种开发方式为"多线程模型"
+
+        //bootstrap.group(acceptorGroup, acceptorGroup);//若传入的两个线程组是同一个，这种开发方式为"单线程模型"
+
         //设置通讯模式 TODO 很奇怪这里的AbstractChannel 子类中只包含nio相关的AbstractChannel， 那如果我想通过AIO来实现netty该怎么做呢?
         bootstrap.channel(NioServerSocketChannel.class);
         //设定缓冲区的大小  (和AIO、BIO、NIO类似，netty也是利用缓冲区操作数据)  单位: 字节 (Byte)
