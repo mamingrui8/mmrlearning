@@ -28,7 +28,10 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {  //这里
      *  用于处理读取数据请求的逻辑
      *  ctx - 上下文对象。其中包含用于和客户端进行连接的所有资源。如: 对应的Channel
      *  msg - 读取到的数据。默认的类型是ByteBuf，注意: ByteBuf是Netty自定义的，是对ByteBuffer进行的封装。
-     *        TODO 很奇怪为什么要用Object类型来接收...
+     *
+     *        问: 很奇怪为什么要用Object类型来接收...
+     *        答1: 看了NettyServerFixLength.java中的doAccpet()方法就能弄懂了。并不一定msg会是一个ByteBuf,倘若通过codec的StringDecoder解码器，msg将被自动转成String类型！！！
+     *        答2: 答1有问题，本质上msg仍然是一个ByteBuf
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception{ //channelRead 是netty 5.X版本才开始提供的

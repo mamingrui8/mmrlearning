@@ -27,7 +27,7 @@ public class NettyServerFixLength {
     //服务端启动所需的相关配置
     private ServerBootstrap bootstrap= null;
 
-    public NettyServerFixLength(){
+    NettyServerFixLength(){
         init();
     }
 
@@ -50,7 +50,7 @@ public class NettyServerFixLength {
     /**
      * 与NettyServer不同， ChannelHandler不定长参数并非是当做参数传入doAccpet
      */
-    public ChannelFuture doAccept(int port) throws InterruptedException{
+    private ChannelFuture doAccept(int port) throws InterruptedException{
         bootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
             //定长数据流的核心
             @Override
@@ -62,7 +62,7 @@ public class NettyServerFixLength {
                 //      2. ascII:  1个英文字母占用一个字节，一个中文字符(含繁体)占用2个字节
                 //      3. unicode: 1个英文字母占用2个字节，一个中文字符(含繁体)占用2个字节
                 acceptHandlers[0] = new FixedLengthFrameDecoder(3);
-                // 字符串解码工具，它会自动处理channelRead()方法接收到的msg参数(包括编码)，并将ByteBuf类型的数据(这里指的就是msg啦)转换成字符串！ 若不传递任何参数，则当前文件的编码是默认编码
+                // 字符串解码工具，它会自动处理channelRead()方法接收到的msg参数(包括编码)，并将ByteBuf类型的数据(这里指的就是msg啦)转换成字符串！ 若不传递任何参数，则当前文件的编码就是其默认编码
                 acceptHandlers[1] = new StringDecoder(StandardCharsets.UTF_8);
                 //下面是自己写的一个Handler 处理逻辑
                 acceptHandlers[2] = new NettyServerFixLengthHandler();
@@ -74,13 +74,34 @@ public class NettyServerFixLength {
         return channelFuture;
     }
 
-    public void release(){
+    private void release(){
         this.acceptorGroup.shutdownGracefully();
         this.clientGroup.shutdownGracefully();
     }
 
-    //TODO 50：18
     public static void main(String[] args) {
+        ChannelFuture future = null;
+        NettyServerFixLength nettyServer = null;
 
+        try{
+            nettyServer = new NettyServerFixLength();
+            future = nettyServer.doAccept(9999);
+            System.out.println("Server closed");
+
+            future.channel().closeFuture().sync();
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }finally{
+            if(future != null){
+                try{
+                    future.channel().closeFuture().sync();
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
+            if(null != nettyServer){
+                nettyServer.release();
+            }
+        }
     }
 }
