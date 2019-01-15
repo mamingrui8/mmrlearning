@@ -1,32 +1,35 @@
-package com.mmr.io.netty.sticky.fixlength;
+package com.mmr.io.netty.sticky.delimiter;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.FixedLengthFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 
 import java.nio.charset.StandardCharsets;
 
 /**
- * Description: netty 粘包问题解决方案——使用定长数据流。
- * 客户端和服务端提前协商好每条消息的长度(比如，长度为10) 如果客户端或者服务端写出的数据不足10，则不足位使用空白字符来补足。
+ * Description: TODO
  * User: MaMingRui
  * Email: mamr@broada.com
- * Date: 2019年01月14日 22:05
+ * Date: 2019年01月15日 22:33
  * ModificationHistory: Who         When         What
  * ---------  --------     ---------------------------
  */
-public class NettyServerFixLength {
+@SuppressWarnings("Duplicates")
+public class NettyServerDelimiter {
     // 监听线程组，监听客户端请求
     private EventLoopGroup acceptorGroup = null;
     // 处理客户端相关操作线程组，负责处理与客户端的数据通讯
     private EventLoopGroup clientGroup = null;
     // 服务启动相关配置信息
     private ServerBootstrap bootstrap = null;
-    public NettyServerFixLength(){
+    public NettyServerDelimiter(){
         init();
     }
     private void init(){
@@ -45,17 +48,26 @@ public class NettyServerFixLength {
                 .option(ChannelOption.SO_KEEPALIVE, true);
     }
     public ChannelFuture doAccept(int port) throws InterruptedException{
-
         bootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
 
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
+                //数据分隔符， 我们定义的数据分隔符一定要是一个ByteBuf类型的数据对象！
+                ByteBuf delimiterBuf = Unpooled.copiedBuffer("$MMR_SERVER$".getBytes());
                 ChannelHandler[] acceptorHandlers = new ChannelHandler[3];
-                // 定长Handler。通过构造参数设置消息长度（单位是字节）。发送的消息长度不足可以使用空格补全。
-                acceptorHandlers[0] = new FixedLengthFrameDecoder(5);  //约定一次只能接收/处理5个字节的数据   <=====> 客户端一次只能传递5个字节的数据给服务端
+
+                /**
+                 *  DelimiterBasedFrameDecoder同样继承了ChannelInboundHandlerAdaptor,所以也是一个处理器。
+                 *  它是一个用于处理固定标记符号的Handler。注意，这里Handler没有@Sharable注解 修饰
+                 *  换句话说，DelimiterBasedFrameDecoder没有并发处理的能力，因此必须每次初始化通道时，创建一个新的处理器对象！！！
+                 *
+                 *  使用特殊分隔符解决粘包问题时，要像定长数据流一样，定义每个数据包的长度。 因为: netty建议数据包有最大长度...
+                 *  这其实就和http网络请求一样，请求体按道理说应该是无穷大，但往往网站对比如附件上传的大小是有要求的，因为要考虑到网络传输的稳定性等因素，如果数据包过大，需要考虑是否支持断点续传等因素，麻烦且危险。
+                 */
+                acceptorHandlers[0] = new DelimiterBasedFrameDecoder(1024, delimiterBuf);
                 // 字符串解码器Handler，会自动处理channelRead方法的msg参数，将ByteBuf类型的数据转换为字符串对象
                 acceptorHandlers[1] = new StringDecoder(StandardCharsets.UTF_8);
-                acceptorHandlers[2] = new NettyServerFixLengthHandler();
+                acceptorHandlers[2] = new NettyServerDelimiterHandler();
                 ch.pipeline().addLast(acceptorHandlers);
             }
         });
@@ -69,9 +81,9 @@ public class NettyServerFixLength {
 
     public static void main(String[] args){
         ChannelFuture future = null;
-        NettyServerFixLength server = null;
+        NettyServerDelimiter server = null;
         try{
-            server = new NettyServerFixLength();
+            server = new NettyServerDelimiter();
 
             future = server.doAccept(9999);
             System.out.println("server started.");
