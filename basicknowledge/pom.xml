@@ -34,8 +34,25 @@
             <version>4.1.32.Final</version>
         </dependency>
 
+        <!-- 接收处理工具 类似netty codec,就好像是一个HandlerAdaptor处理逻辑 -->
+        <!-- https://mvnrepository.com/artifact/org.jboss.marshalling/jboss-marshalling-river -->
+        <dependency>
+            <groupId>org.jboss.marshalling</groupId>
+            <artifactId>jboss-marshalling-river</artifactId>
+            <version>2.0.6.Final</version>
+        </dependency>
+        <!-- 序列化处理工具   java对象 <==> 序列 -->
+        <!-- https://mvnrepository.com/artifact/org.jboss.marshalling/jboss-marshalling-serial -->
+        <dependency>
+            <groupId>org.jboss.marshalling</groupId>
+            <artifactId>jboss-marshalling-serial</artifactId>
+            <version>2.0.6.Final</version>
+            <scope>test</scope>
+        </dependency>
 
-        <!-- javaFaker -->
+
+
+        <!-- javaFaker 构造伪数据-->
         <!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
         <dependency>
             <groupId>com.github.javafaker</groupId>

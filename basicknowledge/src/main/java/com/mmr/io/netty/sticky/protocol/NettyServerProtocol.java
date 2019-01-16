@@ -1,34 +1,31 @@
-package com.mmr.io.netty.sticky.delimiter;
+package com.mmr.io.netty.sticky.protocol;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 
 import java.nio.charset.StandardCharsets;
 
 /**
- * Description: TODO
+ * Description: 说穿了，就是为处理器增加了一个处理逻辑——使用协议发送和解析接收到的数据包
  * User: MaMingRui
  * Email: mamr@broada.com
- * Date: 2019年01月15日 22:33
+ * Date: 2019年01月16日 21:25
  * ModificationHistory: Who         When         What
  * ---------  --------     ---------------------------
  */
 @SuppressWarnings("Duplicates")
-public class NettyServerDelimiter {
+public class NettyServerProtocol {
     // 监听线程组，监听客户端请求
     private EventLoopGroup acceptorGroup = null;
     // 处理客户端相关操作线程组，负责处理与客户端的数据通讯
     private EventLoopGroup clientGroup = null;
     // 服务启动相关配置信息
     private ServerBootstrap bootstrap = null;
-    public NettyServerDelimiter(){
+    public NettyServerProtocol(){
         init();
     }
     private void init(){
@@ -46,27 +43,13 @@ public class NettyServerDelimiter {
                 .option(ChannelOption.SO_RCVBUF, 16*1024)
                 .option(ChannelOption.SO_KEEPALIVE, true);
     }
-    public ChannelFuture doAccept(int port) throws InterruptedException{
+    public ChannelFuture doAccept(int port, final ChannelHandler... acceptorHandlers) throws InterruptedException{
+
         bootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
 
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
-                //数据分隔符， 我们定义的数据分隔符一定要是一个ByteBuf类型的数据对象！
-                ByteBuf delimiterBuf = Unpooled.copiedBuffer("$MMR_SERVER$".getBytes());
-                ChannelHandler[] acceptorHandlers = new ChannelHandler[3];
-
-                /**
-                 *  DelimiterBasedFrameDecoder同样继承了ChannelInboundHandlerAdaptor,所以也是一个处理器。
-                 *  它是一个用于处理固定标记符号的Handler。注意，这里Handler没有@Sharable注解 修饰
-                 *  换句话说，DelimiterBasedFrameDecoder没有并发处理的能力，因此必须每次初始化通道时，创建一个新的处理器对象！！！
-                 *
-                 *  使用特殊分隔符解决粘包问题时，要像定长数据流一样，定义每个数据包的长度。 因为: netty建议数据包有最大长度...
-                 *  这其实就和http网络请求一样，请求体按道理说应该是无穷大，但往往网站对比如附件上传的大小是有要求的，因为要考虑到网络传输的稳定性等因素，如果数据包过大，需要考虑是否支持断点续传等因素，麻烦且危险。
-                 */
-                acceptorHandlers[0] = new DelimiterBasedFrameDecoder(1024, delimiterBuf);
-                // 字符串解码器Handler，会自动处理channelRead方法的msg参数，将ByteBuf类型的数据转换为字符串对象
-                acceptorHandlers[1] = new StringDecoder(StandardCharsets.UTF_8);
-                acceptorHandlers[2] = new NettyServerDelimiterHandler();
+                ch.pipeline().addLast(new StringDecoder(StandardCharsets.UTF_8));
                 ch.pipeline().addLast(acceptorHandlers);
             }
         });
@@ -80,11 +63,11 @@ public class NettyServerDelimiter {
 
     public static void main(String[] args){
         ChannelFuture future = null;
-        NettyServerDelimiter server = null;
+        NettyServerProtocol server = null;
         try{
-            server = new NettyServerDelimiter();
+            server = new NettyServerProtocol();
 
-            future = server.doAccept(9999);
+            future = server.doAccept(9999, new NettyServerProtocolHandler());
             System.out.println("server started.");
             future.channel().closeFuture().sync();
         }catch(InterruptedException e){

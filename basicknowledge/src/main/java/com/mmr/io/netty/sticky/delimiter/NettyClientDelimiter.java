@@ -92,14 +92,7 @@ public class NettyClientDelimiter {
                 s = new Scanner(System.in);
                 System.out.print("enter message send to server > ");
                 String line = s.nextLine();
-                byte[] bs = new byte[5];
-                byte[] temp = line.getBytes("UTF-8");
-                if(temp.length <= 5){
-                    for(int i = 0; i < temp.length; i++){
-                        bs[i] = temp[i];
-                    }
-                }
-                future.channel().writeAndFlush(Unpooled.copiedBuffer(bs));
+                future.channel().writeAndFlush(Unpooled.copiedBuffer(line.getBytes()));
                 TimeUnit.SECONDS.sleep(1);
             }
         }catch(Exception e){
