@@ -43,9 +43,16 @@ public class SetAccessibleTest {
             Object instance = clazz.newInstance();
             /**
              * 【重点】
-             *  若没有写setNumber.invoke();  TODO 此处没有写完:  https://blog.csdn.net/lazycatw/article/details/42239707
+             *  若没有写setNumber.setAccessible(true); 执行setNumber.invoke()方法时将会报错如下:
+             *  java.lang.IllegalAccessException: class com.mmr.reflect.SetAccessibleTest cannot access a member of class com.mmr.reflect.A with modifiers "private"
+             *  原因在于 setNumber()的访问类型是private,只有对象内部可见，作为反射类的com.mmr.reflect.SetAccessibleTest 无法获取这个方法，从而无法执行方法。
+             *
+             *  setAccessible() 并没有改变方法的访问级别，而是使jdk放弃了修饰符的检查机制。//TODO 此处用到了jdk9中的模块系统，具体请看com.mmr.jdk9
              */
+            setNumber.setAccessible(true);
             setNumber.invoke(instance, 123);
+
+            System.out.println(getNumber.invoke(instance));
         } catch (NoSuchMethodException | NoSuchFieldException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e){
