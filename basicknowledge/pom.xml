@@ -19,6 +19,13 @@
     </properties>
 
     <dependencies>
+        <!-- disconf -->
+        <dependency>
+            <groupId>com.baidu.disconf</groupId>
+            <artifactId>disconf-client</artifactId>
+            <version>2.6.33</version>
+        </dependency>
+
         <!-- netty -->
         <dependency>
             <groupId>io.netty</groupId>
@@ -49,8 +56,6 @@
             <version>2.0.6.Final</version>
             <scope>test</scope>
         </dependency>
-
-
 
         <!-- javaFaker 构造伪数据-->
         <!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
