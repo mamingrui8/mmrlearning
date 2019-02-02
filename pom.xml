@@ -63,6 +63,14 @@
     </dependencyManagement>
 
     <dependencies>
+        <!-- javaFaker 构造伪数据-->
+        <!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>0.16</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- lombok (这里之所以用provided，是因为lombok代码只在编译前有效，编译生成的class文件中已经将对应的 方法修改成get和set了，因此没必要将lombok对应的jar包打入apk中) -->
         <dependency>
             <groupId>org.projectlombok</groupId>

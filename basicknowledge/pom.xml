@@ -59,14 +59,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- javaFaker 构造伪数据-->
-        <!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
-        <dependency>
-            <groupId>com.github.javafaker</groupId>
-            <artifactId>javafaker</artifactId>
-            <version>0.16</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>

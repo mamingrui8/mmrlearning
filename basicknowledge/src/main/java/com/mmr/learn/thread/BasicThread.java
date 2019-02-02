@@ -1,4 +1,10 @@
-package com.mmr.learn.first;
+package com.mmr.learn.thread;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Description: 多线程基础学习
@@ -14,6 +20,7 @@ public class BasicThread {
      * 参考:
      * 1. https://www.cnblogs.com/wxd0108/p/5479442.html  (多线程详解)
      * 2. https://blog.csdn.net/weixin_41101173/article/details/79679300 (线程阻塞讲解)
+     * 3.《Java多线程编程核心技术》 P28
      *
      * <上下文的概念>
      * 一段程序需要正常执行，除了CPU以外的所有需求构成了这段程序的上下文环境。
@@ -80,10 +87,92 @@ public class BasicThread {
      *     This behavior may be subtle and difficult to detect, or it may be pronounced.
      *     Unlike other unchecked exceptions, ThreadDeath kills threads silently; thus, the user has no warning that his program may be corrupted.
      *     The corruption can manifest itself at any time after the actual damage occurs, even hours or days in the future.
+     *     综上所示，释放掉监控器可能会导致受监控器保护的某些对象死亡，一旦其它线程继续调用这些对象，将会导致不可预知的后果。
+     *
+     *  常用名词:
+     *  1. 主线程: JVM调用程序main()所产生的线程
+     *  2. 当前线程: 通过Thread.currentThread()来获取的线程
+     *  3. 后台线程：指为其他线程提供服务的线程，也称为守护线程。JVM的垃圾回收线程就是一个后台线程。用户线程和守护线程的区别在于，是否等待主线程依赖于主线程结束而结束
+     *  4. 前台线程: 是指接受后台线程服务的线程，其实前台后台线程是联系在一起，就像傀儡和幕后操纵者一样的关系。傀儡是前台线程、幕后操纵者是后台线程。
+     *               由前台线程创建的线程默认也是前台线程。可以通过isDaemon()和setDaemon()方法来判断和设置一个线程是否为后台线程。
+     *  5. 系统空进程: System Idle Process 系统空闲进程    CPU对其发出IDLE指令，使该进程占用的CPU挂起，减少CPU使用率。  当然，一旦应用程序有所请求，该进程将立刻分配到CPU并运行
+     *  6. 可见进程:  一些不在前台，但用户依然可见的进程，举例来说：各种widget、输入法等，都属于visibe。这部分进程虽然不在前台，但与我们的使用也是密切相关，我们并不希望它被系统终止。
+     *
+     *     "前台可见进程服务于后台空进程"
+     *     我对这句话的理解: 为了使CPU总体占用率、温度降低，windows针对大型的进程进行了CPU挂起处理，也就是让其进入空进程状态。但该进程需要做的事情不能没人做，因此分配了一部分前台
+     *                       可见进程去做。
+     *
+     *     重要性依次递减即，前台进程>可见进程>服务进程>后台进程>空进程。
+     *
+     *
+     *     volatile
      *
      */
 
     public static void main(String[] args){
+        Task2 task2 = new Task2();
+        System.out.println(new Thread(task2, "小马哥").getName());
+
+    }
+
+
+
+    /**
+     * 守护线程与非守护线程
+     * @Test 有别于main函数。 当父线程执行完毕后，子线程也会随之关闭。
+     */
+    public void test1(){
+        System.out.println("当前时间："+new Date());
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.SECOND, 10);
+        MyTask task = new MyTask();
+        Timer timer = new Timer();
+        timer.schedule(task,calendar.getTime());
+    }
+
+    /**
+     * 若想捕获线程中的异常，不能使用try,catch 而是使用以下方式
+     */
+    public void test2(){
+        Thread taskThread = new Task1();
+        taskThread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler(){ //UncaughtExceptionHandler  jdk1.5以后
+
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                System.out.println("你好哦，我捕获到了->" + t.getName() + ",他出现了如下问题: " + e.toString());
+            }
+        });
+    }
+}
+
+class MyTask extends TimerTask{
+    @Override
+    public void run() {
+        System.out.println("任务执行了，时间为："+new Date());
+    }
+}
+
+class Task1 extends Thread{
+    public Task1(){
+        super();
+    }
+    @Override
+    public void run(){
+        try {
+            TimeUnit.SECONDS.sleep(5);
+            System.out.println("name->" + Thread.currentThread().getName() + "你好");
+        } catch (InterruptedException e) {
+            System.out.println("name->" + Thread.currentThread().getName() + "阵亡啦，" + e.toString());
+        }
+    }
+}
+
+
+class Task2 implements Runnable{
+
+    @Override
+    public void run() {
 
     }
 }
+
