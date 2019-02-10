@@ -11,6 +11,8 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Description: 定时断线重连 —— 服务端
  *              ReadTimeoutHandler是 netty提供的，注意它没有被io.netty.channel.ChannelHandler.@Sharable 所修饰
@@ -61,7 +63,7 @@ public class ServerReconnection {
                 //构造函数的参数就是间隔时长，默认的单位是秒。
                 //自定义间隔时长单位。 new ReadTimeoutHandler(long times, TimeUnit unit)
                 ch.pipeline().addLast(new ReadTimeoutHandler(3));
-                //TODO 听老师说，断开的操作时client来做的，到底是真是假？
+                //TODO 听老师说，断开的操作是client来做的，到底是真是假？
                 ch.pipeline().addLast(new ServerReconnectionHandler());
             }
         });
@@ -81,7 +83,7 @@ public class ServerReconnection {
                 // 定义一个定时断线处理器，当多长时间内，没有任何的可读取数据，自动断开连接。
                 // 构造参数，就是间隔时长。 默认的单位是秒。
                 // 自定义间隔时长单位。 new ReadTimeoutHandler(long times, TimeUnit unit);
-                ch.pipeline().addLast(new ReadTimeoutHandler(3));
+                ch.pipeline().addLast(new ReadTimeoutHandler(3, TimeUnit.SECONDS));
                 ch.pipeline().addLast(new ServerReconnectionHandler());
             }
         });

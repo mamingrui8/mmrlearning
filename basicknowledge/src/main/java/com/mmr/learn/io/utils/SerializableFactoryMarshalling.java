@@ -17,6 +17,7 @@ public class SerializableFactoryMarshalling {
 
     /**
      * 创建Jboss Marshalling 解码器MarshallingDecoder
+     * 反序列化，目的: 序列化对象 -> 实际对象
      * @return MarshallingDecoder
      */
     public static MarshallingDecoder marshallingDecoderBuidler(){
@@ -25,16 +26,17 @@ public class SerializableFactoryMarshalling {
         final MarshallerFactory marshallerFactory = Marshalling.getProvidedMarshallerFactory("serial");
         //和Bootstrap类似，marshalling也需要创建自己的配置对象——MarshallingConfiguration对象
         final MarshallingConfiguration configuration = new MarshallingConfiguration();
-        //【特别的，选择序列化的版本时，如果程序使用jdk1.5及以上版本时，序列化版本必须也只能填5！】
+        //【特别的，选择序列化的版本时，如果程序使用jdk1.5及以上版本时，序列化版本必须也只能填5！ 因为jdk1.5以后，序列化的实现方式改变了】
         configuration.setVersion(5);
         //根据marshallerFactory和MarshallingConfiguration创建provider
         UnmarshallerProvider provider = new DefaultUnmarshallerProvider(marshallerFactory, configuration);
-        //构建Netty的MarshallingDecoder对象，两个参数分别是: provider和单个消息序列化后的最大长度 (这里再次看出，java不提倡发送不限制长度的数据包)
+        //构建Netty的MarshallingDecoder对象，两个参数分别是: provider和单个消息序列化后的最大长度 (这里再次看出，java不提倡发送不限制长度的数据包)  以字节为单位， 通常传输时不得超过2K
         return new MarshallingDecoder(provider, 1024 * 1024);
     }
 
     /**
      * 创建Jboss Marshalling 编码器MarshallingEncoder
+     * 序列化，目的: 实际对象->序列化对象(二进制数组)
      * @return MarshallingEncoder
      */
     public static MarshallingEncoder marshallingEncoderBuilder(){

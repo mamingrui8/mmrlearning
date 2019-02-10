@@ -10,6 +10,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.timeout.WriteTimeoutHandler;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Description: 定时断线重连---客户端
@@ -43,10 +44,10 @@ public class ClientReconnection {
         bootstrap.handler(new ChannelInitializer<SocketChannel>() {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
-                ch.pipeline().addLast(SerializableFactoryMarshalling.marshallingDecoderBuidler());
                 ch.pipeline().addLast(SerializableFactoryMarshalling.marshallingEncoderBuilder());
+                ch.pipeline().addLast(SerializableFactoryMarshalling.marshallingDecoderBuidler());
                 //写操作自定义断线。 在指定的时间内，若没有任何的写操作，则client -> server自动断线
-                ch.pipeline().addLast(new WriteTimeoutHandler(3));
+                ch.pipeline().addLast(new WriteTimeoutHandler(3, TimeUnit.SECONDS));
                 ch.pipeline().addLast(new ClientReconnectionHandler());
             }
         });
@@ -89,15 +90,14 @@ public class ClientReconnection {
             for(int i=0; i<3; i++){
                 RequestMessage msg = new RequestMessage(new Random().nextLong(), "test"+i, new byte[0]);
                 future.channel().writeAndFlush(msg);
-                //TimeUnit.SECONDS.sleep(2); //2 < 3，因此并不会受到"自定义断线"的限制
+                TimeUnit.SECONDS.sleep(2); //2 < 3，因此并不会受到"自定义断线"的限制
             }
+            TimeUnit.SECONDS.sleep(5);
 
-//            TimeUnit.SECONDS.sleep(5);
-//
-//            //Step2 停顿5秒，再向server发送数据包(由于5>3， 因此一定会自动断线)
-//            future = client.getChannelFuture("localhost", 9999);
-//            RequestMessage msg = new RequestMessage(new Random().nextLong(), "test", new byte[0]);
-//            future.channel().writeAndFlush(msg);
+            //Step2 停顿5秒，再向server发送数据包(由于5>3， 因此一定会自动断线)
+            future = client.getChannelFuture("localhost", 9999);
+            RequestMessage msg = new RequestMessage(new Random().nextLong(), "test", new byte[0]);
+            future.channel().writeAndFlush(msg);
         }catch(Exception e){
             e.printStackTrace();
         }finally{

@@ -31,7 +31,7 @@ public class ClientReconnectionHandler extends ChannelInboundHandlerAdapter {
     /**
      * 当连接建立成功后会触发的代码逻辑
      * 在一次连接中仅可能运行一次
-     * 因此通常用于确认连接是否成功建立或资源是否初始化。
+     * 因此通常用于确认连接是否成功建立或资源是否初始化。 类似init()
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception{

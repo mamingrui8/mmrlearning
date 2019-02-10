@@ -28,7 +28,7 @@ class LoginServlet{
         try{
             usernameRef = username; //由A执行至此时会休眠2秒，接着B把b赋值给了usernameRef，A睡醒后，usernameRef的值当然就发生了改变。
             if(username.equals("a")){
-                TimeUnit.SECONDS.sleep(2);
+                TimeUnit.SECONDS.sleep(2); //sleep并不会释放锁，线程仍然可以同步控制，因此不会让出系统资源。
             }
             passwordRef = password;
             System.out.println("username->" + usernameRef + ",password->" + passwordRef);

@@ -1,7 +1,7 @@
 package com.mmr.learn.io.utils;
 
 /**
- * Description: TODO
+ * Description: 自定义对象， 用于marshalling 序列化传输   测试使用
  * User: MaMingRui
  * Email: mamr@broada.com
  * Date: 2019年01月20日 20:09

@@ -20,7 +20,7 @@ public class BasicThread {
      * 参考:
      * 1. https://www.cnblogs.com/wxd0108/p/5479442.html  (多线程详解)
      * 2. https://blog.csdn.net/weixin_41101173/article/details/79679300 (线程阻塞讲解)
-     * 3.《Java多线程编程核心技术》 P28
+     * 3.《Java多线程编程核心技术》 P49
      *
      * <上下文的概念>
      * 一段程序需要正常执行，除了CPU以外的所有需求构成了这段程序的上下文环境。
@@ -104,14 +104,20 @@ public class BasicThread {
      *
      *     重要性依次递减即，前台进程>可见进程>服务进程>后台进程>空进程。
      *
-     *
-     *     volatile
+     * Jvm处理Java Thread 的run方法中抛出异常的流程:
+     *  被调用的方法在定义的时候就存在throws关键字，这种被抛出的异常，在Thread的run方法中，只能被try-catch语句块捕获，因为run方法本身是没有throws关键字的；
+     *  被调用的方法在定义的时候不存在throws关键字，但是仍然可能抛出异常，比如在Thread的run方法中，调用String的Parse系列方法对非数字的字符进行解析，就可能会抛出NumberFormatException，
+     *  这种JVM是按照如下方式处理的：
+     *      首先看当前的线程，是否在start之前，通过调用setUncaughtExceptionHandler(UncaughtExceptionHandler, eh)，设置了UncaughtExceptionHandler；如果已经设置，则使用此ExceptionHandler来处理；
+     *      否则，查看当前Thread所在的ThreadGroup，是否设置了UncaughtExceptionHandler；如果已经设置，则使用此ExceptionHandler来处理；
+     *      否则，查看Thread层面是否设置了UncaughtExceptionHandler，Thread类的静态方法setDefaultUncaughtExceptionHandler进行设置；如果已经设置，则使用此ExceptionHandler来处理；
+     *      如果上述UncaughtExceptionHandler都没有找到，那么JVM会直接在console中打印Exception的StackTrace信息。
      *
      */
 
     public static void main(String[] args){
-        Task2 task2 = new Task2();
-        System.out.println(new Thread(task2, "小马哥").getName());
+        BasicThread basicThread = new BasicThread();
+        basicThread.test3();
 
     }
 
@@ -142,6 +148,23 @@ public class BasicThread {
                 System.out.println("你好哦，我捕获到了->" + t.getName() + ",他出现了如下问题: " + e.toString());
             }
         });
+    }
+
+    /**
+     * getId()方法 获取线程的唯一标识
+     * 此ID一定是正数(positive number)，且在线程的生命周期内不会发生改变，但当线程死亡后，该ID可能会被回收、重复利用。、
+     * 猜测线程获取CPU分片的优先级与ID值有关，ID越小，优先级越高。 main线程的优先级为1
+     */
+    public void test3(){
+        Thread thread = Thread.currentThread();
+        System.out.println("getName()->" + thread.getName() + " ; getId()->" + thread.getId());
+    }
+
+    /**
+     * 线程停止
+     */
+    public void test4(){
+        //详情请看Thread5.java
     }
 }
 
