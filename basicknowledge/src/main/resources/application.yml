@@ -5,3 +5,6 @@ server:
 spring:
   application:
     name: test
+logging:
+  config:
+    classpath: logback-spring.xml

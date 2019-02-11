@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- scan: 若配置文件发生改变时，则会被重新加载，默认为true
+     scanPeriod: 扫描配置文件是否发生修改的时间间隔(默认单位: 毫秒， 默认1分钟)
+     debug: 当设置为true时，将打印logback内部日志，默认为false
+-->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!-- 自定义参数 -->
+    <!-- 定义日志文件的存放位置 -->
+    <!--<property name="log_dir" value="/logs/rsb_protal" />-->
+    <property name="APP_NAME" value="basicknowledge" />
+    <property name="log_dir" value="D://mmrlearning/logs" />
+    <!-- 日志最大保存的历史天数 -->
+    <property name="maxHistory" value="20" />
+
+    <!-- 日志控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- logger根元素，输出root级别的日志 -->
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

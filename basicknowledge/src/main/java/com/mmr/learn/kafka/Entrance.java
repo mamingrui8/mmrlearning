@@ -57,6 +57,8 @@ public class Entrance {
      *         答: 为消息系统增加处理单元(比如提升CPU，扩充主机)
      *  问题3: 如果在推送时，订阅者挂掉了？那么之后发布的消息应该如何处理？
      *         答: 由"消息系统推送给订阅者"的模式转变成"订阅者定时向消息系统拿取消息"
+     *  问题4: 对于分区中的一个offset例如等于345555,如何去查找对应的message呢？
+     *         答: 第一步，找到该message所在的segment文件，接着再通过二分查找的方式寻找小于等于345552的offset。
      *
      *
      *  使用方式:
@@ -66,9 +68,56 @@ public class Entrance {
      *         export KAFKA_HOME=/xxxxx
      *         export PATH=$PATH:$KAFKA_HOME/bin
      *         source /etc/profile 使生效
-     *  Step3: kafka中需要用到zk，
+     *  Step3: kafka中需要用到zk，因此首先启动zk
+     *         nohup zookeeper-server-start.sh /data/kafka_2.11-0.10.0.1/config/zookeeper.properties &
+     *         (后台启动)
+     *  Step4: 启动broker
+     *         nohup kafka-server-start.sh /data/kafka_2.11-0.10.0.1/config/server.properties &
+     *  Step5: 测试
+     *         模拟生产者向消费者发送数据，但消息必须属于某主题
+     *   Step5-1: 创建主题
+     *            kafka-topics.sh --create --zookeeper localhost:2181 --topic mytopic --partitions 1 --replication-factor 1
+     *            解释：
+     *            1. --zookeeper: zk的地址
+     *            2. --topic: topic的名称
+     *            3. --partitions: 该主题下分区数量
+     *            4. --replication-factor: 副本因子的数量
+     *            若端口是2181，则可以省略不写
      *
+     *   Step5-2: 创建生产者
+     *            kafka-console-producer.sh --topic mytopic --broker-list localhost:9092
+     *   Step5-3: 创建消费者
+     *            confikafka-console-consumer.sh --topic mytopic --zookeeper localhost:2181
+     *   Step5-4: 删除主题
+     *            kafka-topics.sh --delete --zookeeper localhost:2181 --topic test
      *
-     *  demo1: 入门案例
+     *  概念:
+     *  1. Topic(主题)
+     *          创建、修改、删除。
+     *          Producer针对某个主题进行生产，Consumer针对某个主题进行订阅。
+     *  2. Partition(分区)
+     *          Kafka可以将topic进行数据文件切片的方式分布存储在若干个broker上。
+     *          单独的一个partition内的消息是有序且不可修改的，但是多个分区之间的数据是无序的。
+     *          问: 生产者生产的消息怎么知道到底该进入主题下的哪个分区？
+     *          答: 消息的组成部分是key-value，通过key得知所去的分区。
+     *  3. replication(副本)
+     *          副本因子数应当小于等于可用的broker数
+     *          如果有多个副本，副本内部会出现leader和follower，其中leader与外界进行读写操作，而follower则采用拉取的方式与leader同步。
+     *  4.同步与异步
+     *          同步: 消息发送给kafka之后，在此等待返回结果
+     *          异步: 消息先发送到阻塞队列中，通过轮询的方式，将阻塞队列中的消息发送给kafka。
+     *  5. kafka与zookeeper的节点说明
+     *          多个broker之间会存在一个controller broker的角色
+     *
+     *  demo: 入门案例
+     *
+     *  集群的搭建
+     *  1. 准备好zookeeper服务器
+     *  2. 各台主机的broker.id设置成不同
+     *  3. 在server。properties中加入zk的地址
+     *  4. 对log.dirs也进行修改
+     *
+     *  消费者并不会按照顺序依次消费kafka中的数据，而是会根据分片来选择。(如果只有一个分区，则看不出效果)
+     *
      */
 }
