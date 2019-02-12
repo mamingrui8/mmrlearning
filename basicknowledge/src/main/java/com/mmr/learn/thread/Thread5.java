@@ -22,7 +22,7 @@ public class Thread5 {
      */
     public static void main(String[] args) {
         Thread5 test = new Thread5();
-        test.test5();
+        test.test6();
     }
 
     /**
@@ -151,6 +151,22 @@ public class Thread5 {
         thread5_5.start();
     }
 
+    /**
+     * 让我们看看释放锁的不良后果
+     */
+    public void test6(){
+        try {
+            SynchronizedObject object = new SynchronizedObject();
+            Thread5_6 thread = new Thread5_6(object);
+            thread.start();
+            TimeUnit.SECONDS.sleep(1);
+            thread.stop();
+            System.out.println(object.getUsername() + "----" + object.getPassword());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
 
@@ -227,5 +243,48 @@ class Thread5_5 extends Thread{
             System.out.println("进入了catch()方法");
             e.printStackTrace();
         }
+    }
+}
+
+class SynchronizedObject extends Thread{
+    private String username = "a";
+    private String password = "aa";
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void printString(String username, String password){
+        try{
+            this.username = username;
+            TimeUnit.MINUTES.sleep(30);
+            this.password = password;
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+}
+
+class Thread5_6 extends Thread{
+    private SynchronizedObject object;
+    public Thread5_6(SynchronizedObject object){
+        super();
+        this.object = object;
+    }
+    @Override
+    public void run(){
+        object.printString("b", "bb");
     }
 }
