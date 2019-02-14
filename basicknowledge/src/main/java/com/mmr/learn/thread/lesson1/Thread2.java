@@ -1,4 +1,4 @@
-package com.mmr.learn.thread;
+package com.mmr.learn.thread.lesson1;
 
 import java.util.concurrent.TimeUnit;
 

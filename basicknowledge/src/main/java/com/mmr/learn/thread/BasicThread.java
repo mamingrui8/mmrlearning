@@ -20,7 +20,16 @@ public class BasicThread {
      * 参考:
      * 1. https://www.cnblogs.com/wxd0108/p/5479442.html  (多线程详解)
      * 2. https://blog.csdn.net/weixin_41101173/article/details/79679300 (线程阻塞讲解)
-     * 3.《Java多线程编程核心技术》 P49
+     * 3.《Java多线程编程核心技术》 P80  Thread7.java
+     *
+     * [lesson1]
+     * Thread7 --- 线程优先级
+     * Thread8 --- 守护线程
+     *
+     * lesson2 多个对象多把锁问题
+     * lesson3 多线程访问同一个共享资源的同步或非同步方法
+     * lesson4 脏读
+     *
      *
      * <上下文的概念>
      * 一段程序需要正常执行，除了CPU以外的所有需求构成了这段程序的上下文环境。
@@ -65,7 +74,7 @@ public class BasicThread {
      *                           1. wait(long mills)  超出等待时间后，将自动转换成Runnable(就绪态)
      *                           2. wait()            很可惜，此方法不能设置等待时间，只能默默等待有其它线程调用此对象的notify()方法唤醒该线程。
      *  3. 线程礼让(经典)
-     *     Thread.yield()
+     *     Thread.yield()  具体请看Thread6.java
      *     (请求)暂停当前正在执行的线程对象，很绅士的把执行的机会让给相同或者更高优先级的线程。
      *     yield()虽然会使线程放弃当前分得的CPU时间，但是不会使线程阻塞，也即被执行yield()的线程会进入Runnable()状态，随时可以再次被调用
      *

@@ -1,4 +1,4 @@
-package com.mmr.learn.thread;
+package com.mmr.learn.thread.lesson1;
 
 import java.util.concurrent.TimeUnit;
 
@@ -19,10 +19,22 @@ public class Thread5 {
      1. 使用退出标志，使线程正常退出，也即当run()方法完成后线程终止。
      2. 使用stop方法强行终止线程，但绝不推荐使用此方法，因为stop和suspend,resume一样，都是过期作废的方法，使用它们可能会产生一些不可预知的后果。
      3. 使用interrupt方法中断线程。
+
+
+     test1() --- 停止不了的线程
+     test2() --- 判断线程是否处于停止状态
+     test3() --- 在循环中借助interrupt标志位停止线程
+     test4() --- 在线程沉睡时停止线程
+     test5() --- 使用stop()暴力停止线程
+     test6() --- return配合interrupt()结合使用停止线程
      */
     public static void main(String[] args) {
         Thread5 test = new Thread5();
-        test.test5();
+        try {
+            test.test6();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -151,6 +163,12 @@ public class Thread5 {
         thread5_5.start();
     }
 
+    public void test6() throws InterruptedException{
+        Thread5_6 thread5_6 = new Thread5_6();
+        thread5_6.start();
+        Thread.sleep(2000);
+        thread5_6.interrupt();
+    }
 }
 
 
@@ -226,6 +244,19 @@ class Thread5_5 extends Thread{
         }catch (ThreadDeath e){ //此异常不需要显示的捕获
             System.out.println("进入了catch()方法");
             e.printStackTrace();
+        }
+    }
+}
+
+class Thread5_6 extends Thread{
+    @Override
+    public void run(){
+        while(true){
+            if(this.isInterrupted()){
+                System.out.println("这个线程已经被停止了");
+                return;
+            }
+            System.out.println("timer=" + System.currentTimeMillis());
         }
     }
 }

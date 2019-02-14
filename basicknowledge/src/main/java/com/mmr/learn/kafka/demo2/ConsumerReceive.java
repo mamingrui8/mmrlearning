@@ -6,9 +6,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
-import java.util.Properties;
 
 /**
  * User: MaMingRui
@@ -28,7 +26,7 @@ public class ConsumerReceive {
             e.printStackTrace();
         }
         //设置从哪些主题下拉取数据
-        consumer.subscribe(Arrays.asList("mytopic"));
+        consumer.subscribe(Arrays.asList("TOPIC_UYUN_ALARM"));
         //取数据
         try{
             while (true) {

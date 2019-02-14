@@ -1,4 +1,4 @@
-package com.mmr.learn.thread;
+package com.mmr.learn.thread.lesson1;
 
 /**
  *  多个线程共享数据  (同时访问同一个变量)

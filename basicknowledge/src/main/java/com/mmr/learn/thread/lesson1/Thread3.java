@@ -1,4 +1,4 @@
-package com.mmr.learn.thread;
+package com.mmr.learn.thread.lesson1;
 
 /**
  * Description: 注意观察以下线程的名称

@@ -1,4 +1,4 @@
-package com.mmr.learn.thread;
+package com.mmr.learn.thread.lesson1;
 
 /**
  * Description: isAlive()方法
