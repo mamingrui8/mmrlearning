@@ -29,6 +29,10 @@ public class BasicThread {
      * lesson2 多个对象多把锁问题
      * lesson3 多线程访问同一个共享资源的同步或非同步方法
      * lesson4 脏读
+     * lesson5 Synchronized锁重入
+     *         出现异常时，当前线程持有的锁会被自动释放掉
+     *         同步不具有继承性
+     * lesson6 synchronized 同步语句块
      *
      *
      * <上下文的概念>
