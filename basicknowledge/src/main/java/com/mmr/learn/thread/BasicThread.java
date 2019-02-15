@@ -131,7 +131,6 @@ public class BasicThread {
     public static void main(String[] args){
         BasicThread basicThread = new BasicThread();
         basicThread.test3();
-
     }
 
 
