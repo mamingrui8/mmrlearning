@@ -15,5 +15,7 @@ public class Entrance {
      * netty的应用度很高。比如dubbo、MQ、FastDFS，半数以上的远程调用RPC框架、网络通讯框架，网络传输应用都是用netty写的。
      *
      *
+     * heatbeat: 心跳监测机制(注释最全面)  TODO 建议敲完代码后，再听一遍
+     * http协议处理 1:36:35
      */
 }

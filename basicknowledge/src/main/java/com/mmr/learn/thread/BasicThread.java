@@ -20,7 +20,7 @@ public class BasicThread {
      * 参考:
      * 1. https://www.cnblogs.com/wxd0108/p/5479442.html  (多线程详解)
      * 2. https://blog.csdn.net/weixin_41101173/article/details/79679300 (线程阻塞讲解)
-     * 3.《Java多线程编程核心技术》 P80  Thread7.java
+     * 3.《Java多线程编程核心技术》 P121
      *
      * [lesson1]
      * Thread7 --- 线程优先级
@@ -33,7 +33,10 @@ public class BasicThread {
      *         出现异常时，当前线程持有的锁会被自动释放掉
      *         同步不具有继承性
      * lesson6 synchronized 同步语句块
-     *
+     * lesson7 将任意的对象作为对象监视器
+     * lesson8 静态同步synchronized方法与synchronized(class)代码块
+     * lesson9 String类型的常量池特性  (☆☆☆)
+     * lesson10 同步方法引发的"无限等待"问题
      *
      * <上下文的概念>
      * 一段程序需要正常执行，除了CPU以外的所有需求构成了这段程序的上下文环境。
@@ -72,6 +75,7 @@ public class BasicThread {
      *     Thread.sleep(long mills) <===> TimeUnit.SECONDS.sleep(long timeout)
      *     此方法会抛出一个java.lang.InterruptedException
      *     睡眠结束后，线程将被转为Runnable(就绪态)
+     *     不会释放锁
      *  2. 线程等待
      *     Object类的wait()方法  当且仅当其他线程(包含主线程)调用此对象的notify()方法才能唤醒该线程。
      *     这里的wait()有两种形式:

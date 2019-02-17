@@ -80,7 +80,6 @@ public class NettyServerProtocol {
                     e.printStackTrace();
                 }
             }
-
             if(null != server){
                 server.release();
             }
