@@ -1,0 +1,26 @@
+package com.mmr.learn.thread.lesson11.deadLockTest;
+
+/**
+ * Description: TODO
+ * User: MaMingRui
+ * Email: mamr@broada.com
+ * Date: 2019年02月18日 16:29
+ * ModificationHistory: Who         When         What
+ * ---------  --------     ---------------------------
+ */
+public class Run {
+    public static void main(String[] args){
+        try{
+            DeadThread t1 = new DeadThread();
+            t1.setFlag("a");
+            Thread thread1 = new Thread(t1);
+            thread1.start();
+            Thread.sleep(100);
+            t1.setFlag("b");
+            Thread thread2 = new Thread(t1);
+            thread2.start();
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+}

@@ -35,8 +35,10 @@ public class BasicThread {
      * lesson6 synchronized 同步语句块
      * lesson7 将任意的对象作为对象监视器
      * lesson8 静态同步synchronized方法与synchronized(class)代码块
-     * lesson9 String类型的常量池特性  (☆☆☆)
+     * lesson9 String类型的常量池特性  (★★★)
      * lesson10 同步方法引发的"无限等待"问题
+     * lesson11 多线程死锁
+     * lesson12 内置类与静态内置类(★★★) [涉及"内置类"和"静态内置类"]
      *
      * <上下文的概念>
      * 一段程序需要正常执行，除了CPU以外的所有需求构成了这段程序的上下文环境。
