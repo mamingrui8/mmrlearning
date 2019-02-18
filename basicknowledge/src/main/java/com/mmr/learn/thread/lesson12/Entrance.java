@@ -29,6 +29,17 @@ public class Entrance {
      *      由于一把锁是String类型的对象锁，还有一把锁定义在成员方法上，也就是this对象锁。
      *      持有不同的"对象监视器"，所以异步执行。
      *  innerTest2 内置类与同步 - 实验2
+     *      由于InnerClass1的method1的锁是InnerClass2对象，与InnerClass2的method1产生冲突，因此后者一定在前者执行完毕才能开始运行。
+     *      而InnerClass1的method2的锁是对象锁，也就是InnerClass1对象持有，与其他两把锁互不干扰，因此异步执行。
      *
+     * setNewStringTwoLock 锁对象的改变
+     *      现在看来，锁不一定会放在某个方法、某个类上，它还可以是某个完全不相干的对象。
+     *      因此，理论上来说，任何数据类型都可以作为同步锁。但需要注意的是，是否有多个线程同时持有锁对象非常关键。
+     *      有以下两种情况:
+     *      1. 如果同时持有相同的锁对象，则这些线程之间就是同步的。
+     *      2. 如果分别获得锁对象，则这些线程之间就是异步的。
+     *
+     *      此例要详细说明:
+     *      具体请看com.mmr.learn.thread.lesson12.setNewStringTwoLock.Run类
      */
 }
