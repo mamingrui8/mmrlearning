@@ -39,6 +39,7 @@ public class BasicThread {
      * lesson10 同步方法引发的"无限等待"问题
      * lesson11 多线程死锁
      * lesson12 内置类与静态内置类(★★★) [涉及"内置类"和"静态内置类"]
+     * lesson13 volatile关键字、volatile与synchronized的比较(★★★)
      *
      * <上下文的概念>
      * 一段程序需要正常执行，除了CPU以外的所有需求构成了这段程序的上下文环境。
@@ -132,6 +133,10 @@ public class BasicThread {
      *      否则，查看Thread层面是否设置了UncaughtExceptionHandler，Thread类的静态方法setDefaultUncaughtExceptionHandler进行设置；如果已经设置，则使用此ExceptionHandler来处理；
      *      如果上述UncaughtExceptionHandler都没有找到，那么JVM会直接在console中打印Exception的StackTrace信息。
      *
+     *
+     * 疑问:
+     * 1. 书上继承Thread后，自定义构造函数内都会加上super()  请问这么做的作用是什么？为什么lesson13的atomicIntger项目内的MyService不加super()时，
+     *    输出结果的顺序是正确的，加上了反而错了，需要加上synchronized来弥补？
      */
 
     public static void main(String[] args){

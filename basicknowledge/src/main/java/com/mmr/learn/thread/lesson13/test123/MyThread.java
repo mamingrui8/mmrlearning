@@ -1,21 +1,23 @@
-package com.mmr.learn.thread.lesson12.setNewStringTwoLock;
+package com.mmr.learn.thread.lesson13.test123;
 
 /**
  * Description: TODO
  * User: MaMingRui
  * Email: mamr@broada.com
- * Date: 2019年02月18日 22:42
+ * Date: 2019年02月19日 14:58
  * ModificationHistory: Who         When         What
  * ---------  --------     ---------------------------
  */
-public class ThreadB extends Thread{
-    private MyService myService;
-    public ThreadB(MyService myService){
+public class MyThread extends Thread{
+    public MyService myService;
+
+    public MyThread(MyService myService){
         super();
         this.myService = myService;
     }
+
     @Override
     public void run(){
-        myService.testMethod();
+        myService.addNum();
     }
 }
