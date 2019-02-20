@@ -1,6 +1,6 @@
 package com.mmr.learn.io.netty.sticky.serializable;
 
-import com.mmr.learn.io.utils.SerializableFactoryMarshalling;
+import com.mmr.learn.io.utils.SerializableFactory4Marshalling;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -49,8 +49,8 @@ public class NettyServerSerializable {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
                 //decoder和encoder的前后摆放顺序随意  排名不分先后
-                ch.pipeline().addLast(SerializableFactoryMarshalling.marshallingDecoderBuidler());
-                ch.pipeline().addLast(SerializableFactoryMarshalling.marshallingEncoderBuilder());
+                ch.pipeline().addLast(SerializableFactory4Marshalling.marshallingDecoderBuidler());
+                ch.pipeline().addLast(SerializableFactory4Marshalling.marshallingEncoderBuilder());
                 ch.pipeline().addLast(acceptorHandlers);
             }
         });

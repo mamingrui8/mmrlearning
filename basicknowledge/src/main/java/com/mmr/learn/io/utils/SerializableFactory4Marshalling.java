@@ -13,7 +13,7 @@ import org.jboss.marshalling.MarshallingConfiguration;
  * ModificationHistory: Who         When         What
  * ---------  --------     ---------------------------
  */
-public class SerializableFactoryMarshalling {
+public class SerializableFactory4Marshalling {
 
     /**
      * 创建Jboss Marshalling 解码器MarshallingDecoder

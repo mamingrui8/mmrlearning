@@ -1,7 +1,7 @@
 package com.mmr.learn.io.netty.reconnection;
 
 import com.mmr.learn.io.utils.RequestMessage;
-import com.mmr.learn.io.utils.SerializableFactoryMarshalling;
+import com.mmr.learn.io.utils.SerializableFactory4Marshalling;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -44,8 +44,8 @@ public class ClientReconnection {
         bootstrap.handler(new ChannelInitializer<SocketChannel>() {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
-                ch.pipeline().addLast(SerializableFactoryMarshalling.marshallingEncoderBuilder());
-                ch.pipeline().addLast(SerializableFactoryMarshalling.marshallingDecoderBuidler());
+                ch.pipeline().addLast(SerializableFactory4Marshalling.marshallingEncoderBuilder());
+                ch.pipeline().addLast(SerializableFactory4Marshalling.marshallingDecoderBuidler());
                 //写操作自定义断线。 在指定的时间内，若没有任何的写操作，则client -> server自动断线
                 ch.pipeline().addLast(new WriteTimeoutHandler(3, TimeUnit.SECONDS));
                 ch.pipeline().addLast(new ClientReconnectionHandler());

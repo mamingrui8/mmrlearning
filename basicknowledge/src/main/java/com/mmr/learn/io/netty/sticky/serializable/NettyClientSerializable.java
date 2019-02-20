@@ -2,7 +2,7 @@ package com.mmr.learn.io.netty.sticky.serializable;
 
 import com.mmr.learn.io.utils.GzipUtils;
 import com.mmr.learn.io.utils.RequestMessage;
-import com.mmr.learn.io.utils.SerializableFactoryMarshalling;
+import com.mmr.learn.io.utils.SerializableFactory4Marshalling;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -43,8 +43,8 @@ public class NettyClientSerializable {
     public ChannelFuture doRequest(String hostname, int port, ChannelHandler... handlers) throws InterruptedException{
         bootstrap.handler(new ChannelInitializer<SocketChannel>(){
             protected void initChannel(SocketChannel channel) throws Exception{
-                channel.pipeline().addLast(SerializableFactoryMarshalling.marshallingEncoderBuilder());
-                channel.pipeline().addLast(SerializableFactoryMarshalling.marshallingDecoderBuidler());
+                channel.pipeline().addLast(SerializableFactory4Marshalling.marshallingEncoderBuilder());
+                channel.pipeline().addLast(SerializableFactory4Marshalling.marshallingDecoderBuidler());
                 channel.pipeline().addLast(handlers);
             }
         });

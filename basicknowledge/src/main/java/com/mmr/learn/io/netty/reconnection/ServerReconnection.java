@@ -1,6 +1,6 @@
 package com.mmr.learn.io.netty.reconnection;
 
-import com.mmr.learn.io.utils.SerializableFactoryMarshalling;
+import com.mmr.learn.io.utils.SerializableFactory4Marshalling;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -57,8 +57,8 @@ public class ServerReconnection {
         bootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception{
-                ch.pipeline().addLast(SerializableFactoryMarshalling.marshallingDecoderBuidler());
-                ch.pipeline().addLast(SerializableFactoryMarshalling.marshallingEncoderBuilder());
+                ch.pipeline().addLast(SerializableFactory4Marshalling.marshallingDecoderBuidler());
+                ch.pipeline().addLast(SerializableFactory4Marshalling.marshallingEncoderBuilder());
                 //定义一个定时断线处理器，当指定长度时间内没有读取到(client写入的)任何数据时，服务端自动断开针对该client的连接
                 //构造函数的参数就是间隔时长，默认的单位是秒。
                 //自定义间隔时长单位。 new ReadTimeoutHandler(long times, TimeUnit unit)
@@ -78,8 +78,8 @@ public class ServerReconnection {
         this.bootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception{
-                ch.pipeline().addLast(SerializableFactoryMarshalling.marshallingDecoderBuidler());
-                ch.pipeline().addLast(SerializableFactoryMarshalling.marshallingEncoderBuilder());
+                ch.pipeline().addLast(SerializableFactory4Marshalling.marshallingDecoderBuidler());
+                ch.pipeline().addLast(SerializableFactory4Marshalling.marshallingEncoderBuilder());
                 // 定义一个定时断线处理器，当多长时间内，没有任何的可读取数据，自动断开连接。
                 // 构造参数，就是间隔时长。 默认的单位是秒。
                 // 自定义间隔时长单位。 new ReadTimeoutHandler(long times, TimeUnit unit);

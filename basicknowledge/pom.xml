@@ -76,7 +76,8 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.32.Final</version>
+            <!--<version>4.1.32.Final</version>-->
+            <version>5.0.0.Alpha2</version>
         </dependency>
 
         <!-- netty-codec 辅助包 像比如粘包处理方式 定长数据流等 方法类都是由它提供的-->
@@ -84,7 +85,8 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-codec-http</artifactId>
-            <version>4.1.32.Final</version>
+            <!--<version>4.1.32.Final</version>-->
+            <version>5.0.0.Alpha2</version>
         </dependency>
 
         <!-- 接收处理工具 类似netty codec,就好像是一个HandlerAdaptor处理逻辑 -->
@@ -100,7 +102,7 @@
             <groupId>org.jboss.marshalling</groupId>
             <artifactId>jboss-marshalling-serial</artifactId>
             <version>1.4.11.Final</version>
-            <scope>test</scope>
+            <!--<scope>test</scope>-->  <!-- test会导致只有测试时运用此包，编译和运行阶段都不会使用此包！ 这会直接导致对象传输失败！ -->
         </dependency>
 
     </dependencies>

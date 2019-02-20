@@ -1,7 +1,7 @@
 package com.mmr.learn.io.netty.sticky.serializable;
 
+import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 
 /**
  * Description: 对象序列化传输
@@ -11,7 +11,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  * ModificationHistory: Who         When         What
  * ---------  --------     ---------------------------
  */
-public class NettyClientSerializableHandler extends ChannelInboundHandlerAdapter {
+public class NettyClientSerializableHandler extends ChannelHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg){
         System.out.println("from server: ClassName - " + msg.getClass().getCanonicalName() + " ; message : " + msg.toString());
