@@ -71,13 +71,13 @@ public class Entrance {
      *
      *
      *
-     *  那是不是一定要使用synchronized关键字才能实现同步呢？当然不是，还可以使用AtomicInteger原子类实现
+     *  【那是不是一定要使用synchronized关键字才能实现同步呢？】当然不是，还可以使用AtomicInteger原子类实现
      *  请参考AtomicIntegerTest项目
      *        此项目不用synchronized锁也能实现同步的功能，原子性保证了在
      *        主工作内存->线程工作内存->read->load->use->assign->store->write->主工作内存
      *        这一套流程中进行操作时不会受到任何影响。
      *
-     *  那是不是原子性就能保证同步了呢？当然不是，原子性只能保证一定程度的同步
+     *  【那是不是原子性就能保证同步了呢？】当然不是，原子性只能保证一定程度的同步
      *  请参考atomicIntegerNoSafe项目
      *              Thread-0 加了100之后的值是：100
      *              Thread-3 加了100之后的值是：400
@@ -94,6 +94,30 @@ public class Entrance {
      *              答: atomicInteger原子类只能保证自身执行的原子性，即atomicLong.addAndGet()这些方法是原子性的，
      *                  但并不能保证public void addNum()方法的原子性。因此addNum()方法在执行时是异步的。
      *              [解决方案]  很简单，为addNum()加上synchronized，使该方法成为同步的即可。
+     *
+     *
+     *  【synchronized代码块具有volatile同步的功能】
+     *  关键字synchronized不仅可以使多个线程访问同一个资源具有同步性，而且他还具有将线程工作内存中的私有变量与公共内存中的变量同步的功能！
+     *  具体请看synchronizedUpdateNewValue
+     *  分析:
+     *       【抛出问题】没有对runMethod()方法加同步锁，也即runMethod()方法在多线程之间执行是异步的，既然如此，ThreadB修改了共享变量isContinueRun的值后，TheadA为何没有停下来呢？
+     *       【解决问题】原因在于ThreadA和ThreadB之间针对共享变量isContinueRun没有"可视性"！ ThreadA一直在自己的工作内存(缓存)中取数据，当然停不下来。
+     *                   只需要改造Service
+     *                   public void runMethod(){
+     *                       String anyString = new String();
+     *                       while(isContinueRun){
+     *                          synchronized(anyString){
+     *
+     *                          }
+     *                       }
+     *                   }
+     *                   synchronized可以保证:
+     *                   1. 进入同步方法或同步代码块的每一个线程都看到由同一个锁保护之前的所有修改效果
+     *                   2. 同一时刻，只有一个线程执行某一个方法或某一个代码块。它包含两个特征：互斥性和可见性。同步synchronized不仅可以解决一个线程看到对象
+     *
+     *
+     *  TODO 为什么
+     *  TODO 线程所持有的私有内存中的数据在什么时候会同步至共享内存？
      *
      */
 }
