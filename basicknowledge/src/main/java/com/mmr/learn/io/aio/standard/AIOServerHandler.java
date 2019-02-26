@@ -7,7 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 /**
- * Description: TODO
+ *
  *
  * 这里属于父子线程 轮询操作
  * User: MaMingRui

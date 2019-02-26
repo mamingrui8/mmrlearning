@@ -3,7 +3,7 @@ package com.mmr.learn.thread.lesson8.syncMoreObjectStaticOneLock;
 import com.mmr.learn.thread.lesson8.syncMoreObjectStaticOneLock.Service;
 
 /**
- * Description: TODO
+ *
  * User: MaMingRui
  * Email: mamr@broada.com
  * Date: 2019年02月17日 17:27

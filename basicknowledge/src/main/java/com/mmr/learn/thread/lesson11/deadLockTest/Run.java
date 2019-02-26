@@ -1,7 +1,6 @@
 package com.mmr.learn.thread.lesson11.deadLockTest;
 
 /**
- * Description: TODO
  * User: MaMingRui
  * Email: mamr@broada.com
  * Date: 2019年02月18日 16:29

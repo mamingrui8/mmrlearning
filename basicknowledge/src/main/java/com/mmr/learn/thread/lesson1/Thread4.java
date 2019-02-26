@@ -30,8 +30,6 @@ class Thread4_1 extends Thread{
 
     @Override
     public void run(){
-        //TODO 非常奇妙，thread4_1并没有start()，但run()方法竟然执行了，这是怎么回事？
-        //猜测: 一个线程依赖另一个线程的执行时，该线程并不会start()启动，但run()方法会被调用。
         System.out.println("this.getName()->" + this.getName());
         System.out.println("this.isAlive(): " + this.isAlive());
     }

@@ -40,6 +40,8 @@ public class BasicThread {
      * lesson11 多线程死锁
      * lesson12 内置类与静态内置类(★★★) [涉及"内置类"和"静态内置类"]
      * lesson13 volatile关键字、volatile与synchronized的比较(★★★)
+     * lesson14 等待/通知机制
+     * lesson15 方法join的使用
      *
      * topic    经典题目
      *
@@ -111,6 +113,26 @@ public class BasicThread {
      *     The corruption can manifest itself at any time after the actual damage occurs, even hours or days in the future.
      *     综上所示，释放掉监控器可能会导致受监控器保护的某些对象死亡，一旦其它线程继续调用这些对象，将会导致不可预知的后果。
      *
+     *  <线程进入Runnable状态大体分为如下5种情况>
+     *  1. 调用sleep方法后经过的时间已经超出指定休眠时长(TimeUnit.SCEONDS.sleep(1))
+     *  2. 线程调用的IO阻塞方法已返回，阻塞方法已经执行完毕(比如Scanner.nextLine())
+     *  3. 线程成功的获得了试图同步的监视器。
+     *  4. 线程正在等待(wait)某个通知，此时其它线程发起了通知(notify)。
+     *  5. 处于挂机状态的线程调用了resume恢复方法(suspend/resume)[已被废弃]。
+     *
+     *  <Blocked阻塞>
+     *  例如遇到了一个IO操作，此时CPU处于空闲状态，那OS就可能会把CPU时间片分配给其他线程，这时也可以称之为"暂停"状态。Blocked状态结束之后，会进入Runnable状态，等待OS重新分配资源。
+     *  1. 线程调用sleep方法，主动放弃占用的CPU资源。
+     *  2. 线程调用了一个IO阻塞方法，在阻塞方法返回之前，线程将一直处于阻塞状态。
+     *  3. 线程试图获得一个同步监视器，但该监视器正在被其它线程所持有。
+     *  4. 线程处于wait状态，正在等待其它线程的通知。
+     *  5. 程序调用了suspend方法将该线程挂起。(很容易产生死锁，此方法已被废弃)
+     *
+     *  <锁队列>
+     *  每把锁都有两个队列，一个是就绪队列，一个是阻塞队列。
+     *  就绪队列: 存储了将要获得锁的线程。
+     *  阻塞队列: 存储了被阻塞的队列。
+     *
      *  常用名词:
      *  1. 主线程: JVM调用程序main()所产生的线程
      *  2. 当前线程: 通过Thread.currentThread()来获取的线程
@@ -141,8 +163,31 @@ public class BasicThread {
      * 2. synchronized、volatile以及原子类的实现原理，i++为不是线程安全的原因
      *
      * 疑问:
-     * 1. 书上继承Thread后，自定义构造函数内都会加上super()  请问这么做的作用是什么？为什么lesson13的atomicIntger项目内的MyService不加super()时，
+     * 1. TODO 书上继承Thread后，自定义构造函数内都会加上super()  请问这么做的作用是什么？为什么lesson13的atomicIntger项目内的MyService不加super()时，
      *    输出结果的顺序是正确的，加上了反而错了，需要加上synchronized来弥补？
+     * 2. 线程获取CPU分片的优先级是否与ID有关？
+     *    答: 与thread.setPriority()有关。
+     * 3. Thread t = new Thread(new Thread2());  Thread2明明没有被调用start()方法，为什么run()方法仍然能够被执行呢?
+     *    答: 从Thread t = new Thread(Runnable target) 源码注释可知，当线程t启动时，会调用target的run()方法。
+     * 4. 线程在什么时候会确定到底争抢哪吧锁？比如ThreadA，A准备抢夺(String lock); lock的值一直在发生改变
+     *    lock = 1;
+     *    threadA.start();
+     *    lock = 2;
+     *    答: 1. 线程持有的锁的值是可以发生改变的，并且锁本身也可以发生改变(虽然这样会导致非线程安全)。
+     *        2. 线程哪怕被调用了start()方法，其持有的钥匙(lock)的值仍然可以改变，当且仅当获取到CPU分片，被CPU执行的时候，其钥匙值再去与lock锁进行比对
+     * 5. TODO 实际运行过程中，公共堆和私有栈中的数据到底是如何交互的,能否强行将私有栈中的数据同步至公共堆中？
+     *    答: 参照"变量在内存中的工作过程.png"
+     * 6. TODO 为什么suspend/resume会导致死锁从而被废弃，但wait/notify反而得到官方支持？
+     *    答:
+     *         个人猜测:
+     *         1. 可能是由于suspend导致线程阻塞时不会释放占用的锁，而wait会自动释放当前线程拥有的锁，让其它线程得以运行此同步代码块。
+     *         2. suspend/resume方法是线程特有的，而wait/notify则是Object类共有的。
+     * 7. TODO 如果针对同一个Thread多次调用start()会产生什么后果？
+     * 8. 是否能够notify()唤醒指定线程呢?
+     *    答: java单纯的使用wait/notify是无法唤醒指定线程的。
+     *        有以下两条思路:
+     *        1. 修改一个特定的标识，然后notifyAll，被唤醒的线程查看该标志是否指示自己处理，若是则运行下去，否则继续陷入阻塞(wait)。
+     *        2. 针对每一个线程都做一个特定的锁，想唤醒哪个线程就用哪一个object即可。
      */
 
     public static void main(String[] args){

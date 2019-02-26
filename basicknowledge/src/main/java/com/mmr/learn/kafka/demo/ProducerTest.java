@@ -43,7 +43,7 @@ public class ProducerTest {
         properties.put("linger.ms", 1); // 消息逗留在缓冲区的时间，等待更多的消息进入缓冲区一起发送，减少请求发送次数
         properties.put("buffer.memory", 33554432); // 内存缓冲区的总量
         // 如果发送到不同分区，并且不想采用默认的Utils.abs(key.hashCode) % numPartitions分区方式，则需要自己自定义分区逻辑
-        properties.put("partitioner.class", "com.mmr.learn.kafka.demo.Partitioner");
+        properties.put("partitioner.class", "com.mmr.learn.kafka.udp.Partitioner");
         properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         properties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         return properties;

@@ -8,7 +8,7 @@ package com.mmr.learn.thread.lesson13.t16;
  * ---------  --------     ---------------------------
  */
 public class RunThread extends Thread{
-    private boolean isRunning = true;
+    volatile private boolean isRunning = true;
     public boolean isRunning(){
         return this.isRunning;
     }

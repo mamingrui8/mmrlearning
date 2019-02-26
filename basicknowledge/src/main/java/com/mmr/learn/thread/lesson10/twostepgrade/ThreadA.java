@@ -1,7 +1,6 @@
 package com.mmr.learn.thread.lesson10.twostepgrade;
 
 /**
- * Description: TODO
  * User: MaMingRui
  * Email: mamr@broada.com
  * Date: 2019年02月17日 20:16

@@ -3,7 +3,7 @@ package com.mmr.learn.thread.lesson13.test123;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Description: TODO
+ *
  * User: MaMingRui
  * Email: mamr@broada.com
  * Date: 2019年02月19日 15:02

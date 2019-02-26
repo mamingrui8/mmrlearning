@@ -38,7 +38,7 @@ public class Run {
          *       在thread.start()之前，线程所持有的能力(如来自入参的成员变量myService等)是可以被修改的。
          *       但是当thread.start()执行完的那一刻起，线程所持有的能力会被冻结，也即不能发生改变。
          *       Thread.start()进入可执行状态的那一刻起，线程所持有的能力会被冻结(类似中断概念中的保存现场，是一份快照),绝对不能发生任何改变，
-         *       因此如果没有加上Thread.sleep(50)，虽然传入的是同一个myService对象作为入参，即便ThreadA改变了lock的值，ThreadB的lock值仍然不受任何影响  //TODO 这部分"快照"的概念书上没有写，记得问老师
+         *       因此如果没有加上Thread.sleep(50)，虽然传入的是同一个myService对象作为入参，即便ThreadA改变了lock的值，ThreadB的lock值仍然不受任何影响
          *       问题: 在什么时候会确定待执行的线程到底抢夺的是哪吧锁？
          *       猜测: Thread.start()，并且不会发生改变。
          */

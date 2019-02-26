@@ -39,7 +39,7 @@ public class Entrance {
      *
      *
      *
-     *  TODO 实际运行过程中，公共堆和私有栈中的数据到底是如何交互的？
+     *  实际运行过程中，公共堆和私有栈中的数据到底是如何交互的？
      *  比如针对
      *  public classMyThread extends Thread{
      *      public static boolean flag1 = true;
@@ -116,8 +116,6 @@ public class Entrance {
      *                   2. 同一时刻，只有一个线程执行某一个方法或某一个代码块。它包含两个特征：互斥性和可见性。同步synchronized不仅可以解决一个线程看到对象
      *
      *
-     *  TODO 为什么
-     *  TODO 线程所持有的私有内存中的数据在什么时候会同步至共享内存？
      *
      */
 }

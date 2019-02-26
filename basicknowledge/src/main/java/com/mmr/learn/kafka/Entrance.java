@@ -109,7 +109,7 @@ public class Entrance {
      *  5. kafka与zookeeper的节点说明
      *          多个broker之间会存在一个controller broker的角色
      *
-     *  demo: 入门案例
+     *  udp: 入门案例
      *
      *  集群的搭建
      *  1. 准备好zookeeper服务器

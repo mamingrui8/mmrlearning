@@ -1,7 +1,7 @@
 package com.mmr.learn.annotation;
 
 /**
- * Description: TODO
+ *
  * User: MaMingRui
  * Email: mamr@broada.com
  * Date: 2019年01月14日 23:15

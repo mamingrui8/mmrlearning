@@ -29,7 +29,7 @@ public class Entrance {
             public void setUsernamePassword(String username, String password){
                 try{
                     synchronized (anyString){
-                        //TODO 由于anyString是实例变量，属于类的对象，因此synchronized (anyString) 等价于 synchronized (this.anyString)  也即，锁在对象身上
+                        //由于anyString是实例变量，属于类的对象，因此synchronized (anyString) 等价于 synchronized (this.anyString)  也即，锁在对象身上
                         //上述理解是错的！哪怕写成this.anyString,对象监视器仍然是anyString 而不是Service
                         //之所以这种写法会导致同步，是因为多个线程持有同一个对象监视器了，只不过之前的对象监视器是this，现在的对象监视器是andString
 
