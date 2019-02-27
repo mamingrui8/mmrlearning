@@ -1,7 +1,6 @@
 package com.mmr.learn.exception;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,7 +10,7 @@ import org.slf4j.LoggerFactory;
  * Time: 17:49
  */
 public class Test7 {
-    public static final Logger LOG = LoggerFactory.getLogger("com.mmr.learn.exception.Test7"); //具有给定名称的"日志记录器",我们人为规定此处使用包名+类名
+    //public static final Logger LOG = LoggerFactory.getLogger("com.mmr.learn.exception.Test7"); //具有给定名称的"日志记录器",我们人为规定此处使用包名+类名
 
     public static void main(String[] args){
         for(int i = 0; i< 10 ;i++){
@@ -78,10 +77,10 @@ public class Test7 {
 
         student stu = new student("马明瑞", 24);
         //普通的输入的message
-        LOG.info("测试: " + stu);
-        //使用占位符
-        LOG.debug("占位符。姓名: {}, 年龄: {}", stu.getName(), stu.getAge());
-        LOG.warn("你好");
+//        LOG.info("测试: " + stu);
+//        //使用占位符
+//        LOG.debug("占位符。姓名: {}, 年龄: {}", stu.getName(), stu.getAge());
+//        LOG.warn("你好");
     }
 
 

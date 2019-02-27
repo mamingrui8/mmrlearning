@@ -1,8 +1,8 @@
 package com.mmr.learn.kafka.demo;
 
 import org.apache.kafka.clients.producer.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Properties;
@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 //@Slf4j
 @Component
 public class ProducerTest {
-    private static final Logger log = LoggerFactory.getLogger(ProducerTest.class);
+    //private static final Logger log = LoggerFactory.getLogger(ProducerTest.class);
 
     public Properties createProperties() {
         Properties properties = new Properties();

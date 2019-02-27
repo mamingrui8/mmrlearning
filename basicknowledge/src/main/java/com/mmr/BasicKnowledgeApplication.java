@@ -7,7 +7,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
-//@ImportResource({"classpath:disconf.xml"})
 @Import(SpringUtil.class)
 @EnableConfigurationProperties
 public class BasicKnowledgeApplication {

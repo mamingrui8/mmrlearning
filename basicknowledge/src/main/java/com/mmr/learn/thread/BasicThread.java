@@ -157,6 +157,9 @@ public class BasicThread {
      *      否则，查看Thread层面是否设置了UncaughtExceptionHandler，Thread类的静态方法setDefaultUncaughtExceptionHandler进行设置；如果已经设置，则使用此ExceptionHandler来处理；
      *      如果上述UncaughtExceptionHandler都没有找到，那么JVM会直接在console中打印Exception的StackTrace信息。
      *
+     *  java中监视器的实现:
+     *  在java中，每个对象都关联着监视器，为了实现同步，为了实现监视器的互斥功能，每个对象都关联着一个锁(互斥锁)，又被称作"信号量"，互斥是一个二进制的信号量。
+     *
      *
      * 【2019-02-22 对多线程的体会】:
      * 1. 多线程中，私有内存和共享内存的数据同步和差异，什么时候变量可见，什么时候变量互斥

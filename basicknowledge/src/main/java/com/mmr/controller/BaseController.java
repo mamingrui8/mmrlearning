@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -25,4 +26,13 @@ public class BaseController {
         this.producerTest = producerTest;
     }
 
+    @PostMapping(value = "/path1", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String test1(){
+        return "马明瑞";
+    }
+
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public String test2(){
+        return "测试用例";
+    }
 }

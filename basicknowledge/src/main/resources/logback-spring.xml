@@ -21,7 +21,7 @@
 
 
     <!-- logger根元素，输出root级别的日志 -->
-    <root level="info">
+    <root level="debug">
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

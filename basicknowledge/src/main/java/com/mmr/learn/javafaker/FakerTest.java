@@ -1,7 +1,7 @@
 package com.mmr.learn.javafaker;
 
-import com.github.javafaker.Company;
-import com.github.javafaker.Faker;
+//import com.github.javafaker.Company;
+//import com.github.javafaker.Faker;
 
 /**
  * Description:
@@ -13,16 +13,16 @@ import com.github.javafaker.Faker;
  */
 public class FakerTest {
     public static void main(String[] args) {
-        Faker faker = new Faker();
-
-        String name = faker.name().fullName(); // Miss Samanta Schmidt
-        String firstName = faker.name().firstName(); // Emory
-        String lastName = faker.name().lastName(); // Barton
-
-        String streetAddress = faker.address().streetAddress(); // 60018 Sawayn Brooks Suite 449
-
-        Company company = faker.company();
-
-        System.out.println(streetAddress);
+//        Faker faker = new Faker();
+//
+//        String name = faker.name().fullName(); // Miss Samanta Schmidt
+//        String firstName = faker.name().firstName(); // Emory
+//        String lastName = faker.name().lastName(); // Barton
+//
+//        String streetAddress = faker.address().streetAddress(); // 60018 Sawayn Brooks Suite 449
+//
+//        Company company = faker.company();
+//
+//        System.out.println(streetAddress);
     }
 }

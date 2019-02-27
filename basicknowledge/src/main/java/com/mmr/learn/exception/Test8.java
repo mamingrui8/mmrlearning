@@ -1,8 +1,5 @@
 package com.mmr.learn.exception;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -17,8 +14,6 @@ import java.util.Random;
  * 学习: 调试技巧
  */
 public class Test8 {
-    private static final Logger LOGGER = LoggerFactory.getLogger("com.mmr.learn.exception.Test8");
-
     public static void main(String[] args){
 //        Random generator = new Random();
 //        System.out.println(generator.nextDouble()); //其实就是  返回一个从随机数生成器的序列中均匀分布的0.0和1.0之间的double值
@@ -41,7 +36,6 @@ public class Test8 {
         int x = 123;
         System.out.println("现在开始记录日志啦，x=" + x);
         //或者
-        LOGGER.info("现在开始记录日志啦，x=" + x);
         //反正充分的利用对象的toString()方法
     }
 
@@ -65,7 +59,7 @@ public class Test8 {
             public double nextDouble(){
                 double result = super.nextDouble();
                 //在这里我记录下日志^_^
-                LOGGER.info("有人调用Random的nextDouble方法啦: " + this.toString());
+                //LOGGER.info("有人调用Random的nextDouble方法啦: " + this.toString());
                 return result;
             }
         };
