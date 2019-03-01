@@ -42,6 +42,8 @@ public class BasicThread {
      * lesson13 volatile关键字、volatile与synchronized的比较(★★★)
      * lesson14 等待/通知机制
      * lesson15 方法join的使用
+     * lesson16 方法join与异常 (存在疑问★★★)
+     * lesson17 类ThreadLocal的使用
      *
      * topic    经典题目
      *
