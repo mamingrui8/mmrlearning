@@ -25,6 +25,17 @@ public class Entrance {
      *      思考：事实证明，虽然ThreadA,ThreadB以及main线程都在向Tools.t1中填入值，但是它们仍然可以取出自己的那部分数据。
      *
      *  t3 再次验证数据的隔离性
-     *      思考:
+     *      思考: 观察发现，无论是ThreadA还是ThreadB,它们的ThreadLocal的值在第一次调用时皆返回null  (无论为ThreadLocal添加的泛型是Date还是String)
+     *            那么问题来了，如何才能给本线程的Threadlocal赋初值呢？   请看t4
+     *
+     *  t4 给ThreadLocal赋初值
+     *      思考: 当我们继承了ThreadLocal并实现了initialValue()方法后，就够能为使用该ThreadLocal变量的线程赋予初值了。
+     *
+     *  t5 引入新概念---"值继承"
+     *      思考: 从结果上来看，子线程中获取到的ThreadLocal的值是由父线程(main线程)初始化而来。
+     *
+     * ==========如果现在需要在父线程中创建子线程，但是子线程需要有自己的ThreadLocal(换句话说，需要覆盖父类的值了)，我们该怎么做==========
+     *  t6 值继承再修改
+     *      思考: 只需要覆盖InheritableThreadLocal中的childValue()方法就能实现值继承再修改的能力了。
      */
 }

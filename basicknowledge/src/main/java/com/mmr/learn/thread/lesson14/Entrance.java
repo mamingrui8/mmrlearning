@@ -75,7 +75,7 @@ public class Entrance {
      *             如果上述两条代码都写了，会报错: java.io.IOException: Already connected
      *             值得一提的是，int readLength = input.read(byteArrays);  其中，input.read()方法是一个阻塞方法，当且仅当管道内有数据时，才继续向下运行。
      *
-     *   <t14> 通过管道进行线程间通信 --- 字符流
+     *   <t4> 通过管道进行线程间通信 --- 字符流
      *        思考: 与字节流基本类似，都是需要建立连接
      *              务必记得实现Thread类的super()方法
      *

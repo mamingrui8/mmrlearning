@@ -45,6 +45,8 @@ public class BasicThread {
      * lesson16 方法join与异常 (存在疑问★★★)
      * lesson17 类ThreadLocal的使用
      *
+     * lesson18 ReentrantLock类
+     *
      * topic    经典题目
      *
      * <上下文的概念>
@@ -193,6 +195,8 @@ public class BasicThread {
      *        有以下两条思路:
      *        1. 修改一个特定的标识，然后notifyAll，被唤醒的线程查看该标志是否指示自己处理，若是则运行下去，否则继续陷入阻塞(wait)。
      *        2. 针对每一个线程都做一个特定的锁，想唤醒哪个线程就用哪一个object即可。
+     * 9. 没有获取到同步监视器就对线程进行wait()操作，会报什么错？
+     *    答: java.lang.IllegalMonitorStateException
      */
 
     public static void main(String[] args){
