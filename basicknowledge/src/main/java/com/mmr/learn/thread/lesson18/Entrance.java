@@ -36,6 +36,37 @@ public class Entrance {
      *     思考: 通过这个例子后，我得出以下推断:
      *           1. lock本身不是一把this锁，它就好像一把非this对象的同步锁。 若写成private Lock lock 作为类的成员变量，则这把锁定位在对象层面上，同一个对象享有同一把lock。
      *
+     * ==========公平锁与非公平锁==========
+     *     锁Lock被分为"公平锁"和"非公平锁"
+     *     1. 公平锁:   线程获取锁的顺序是按照线程加锁的顺序来分配的，也即先来先得(FTFO)、先进先出顺序。
+     *     2. 非公平锁: 一种锁的抢占机制，随机获得锁。先加锁的不一定先获取到锁。这个方式可能造成某些线程一直拿不到锁，结果也就是不公平的了。
+     *
+     *  t8 公平锁
+     *     思考: 观察执行结果发现，线程都会陆续执行，并且基本呈有序状态状态。(如线程0先被CPU调用了run(),那么线程0一定优先获得锁)
+     *              ☆线程: Thread-0 运行了
+     *              ☆线程: Thread-2 运行了
+     *              ☆线程: Thread-9 运行了
+     *              ☆线程: Thread-1 运行了
+     *              ☆线程: Thread-8 运行了
+     *              ☆线程: Thread-5 运行了
+     *              ☆线程: Thread-3 运行了
+     *              ☆线程: Thread-4 运行了
+     *              ☆线程: Thread-7 运行了
+     *              ThreadName=Thread-0 获得锁定
+     *              ☆线程: Thread-6 运行了
+     *              ThreadName=Thread-2 获得锁定
+     *              ThreadName=Thread-9 获得锁定
+     *              ThreadName=Thread-1 获得锁定
+     *              ThreadName=Thread-8 获得锁定
+     *              ThreadName=Thread-5 获得锁定
+     *              ThreadName=Thread-3 获得锁定
+     *              ThreadName=Thread-4 获得锁定
+     *              ThreadName=Thread-7 获得锁定
+     *              ThreadName=Thread-6 获得锁定
+     *
+     *  t9 非公平锁 并非是先被CPU调用run()的线程就先获得锁。
+     *      思考: ReentrantLock无参构造函数默认使用的是非公平锁！这是为什么啊？
+     *
      */
     public static void main(String[] args) {
 

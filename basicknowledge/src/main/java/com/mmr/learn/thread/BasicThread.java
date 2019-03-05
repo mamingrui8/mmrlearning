@@ -197,6 +197,8 @@ public class BasicThread {
      *        2. 针对每一个线程都做一个特定的锁，想唤醒哪个线程就用哪一个object即可。
      * 9. 没有获取到同步监视器就对线程进行wait()操作，会报什么错？
      *    答: java.lang.IllegalMonitorStateException
+     *
+     * 10. TODO ReentrantLock无参构造函数默认使用的是非公平锁！这是为什么啊？
      */
 
     public static void main(String[] args){
