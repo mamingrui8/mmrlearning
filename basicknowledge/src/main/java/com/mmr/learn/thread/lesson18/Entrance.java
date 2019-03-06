@@ -64,8 +64,20 @@ public class Entrance {
      *              ThreadName=Thread-7 获得锁定
      *              ThreadName=Thread-6 获得锁定
      *
-     *  t9 非公平锁 并非是先被CPU调用run()的线程就先获得锁。
-     *      思考: ReentrantLock无参构造函数默认使用的是非公平锁！这是为什么啊？
+     *     非公平锁 并非是先被CPU调用run()的线程就先获得锁。
+     *     测试时只需在t8项目RunFair中，向Service构造函数传入false即可。
+     *     实际上就是 ReentrantLock lock = new ReentrantLock(false);
+     *
+     *  t9 方法getHoldCount()、getQueueLength()以及getWaitQueueLength()
+     *     lock.getHoldCount()
+     *          概念: 线程针对同一把锁尝试获取锁的次数，也即调用lock.lock();的次数
+     *     lock.getQueueLength()
+     *          概念: 返回等待获取某把锁的线程个数。
+     *     lock.getWaitQueueLength()
+     *          概念: 返回被某个Condition wait()的线程个数
+     *
+     *  t10 方法hasQueuedThread()、hasQueuedThreads()以及hasWaiters()
+     *
      *
      */
     public static void main(String[] args) {
