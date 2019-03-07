@@ -25,8 +25,8 @@ public class Run {
         TimeUnit.SECONDS.sleep(1);
 
 
-        System.out.println("线程A是否正在等待获取锁定" + service.lock.hasQueuedThread(threadA));
-        System.out.println(service.lock.hasQueuedThread(threadB));
-        System.out.println(service.lock.hasQueuedThreads());
+        System.out.println("线程A是否正在等待获取锁定: " + service.lock.hasQueuedThread(threadA));
+        System.out.println("线程B是否正在等待获取锁定: " + service.lock.hasQueuedThread(threadB));
+        System.out.println("是否有线程正在等待获取锁定: " + service.lock.hasQueuedThreads());
     }
 }

@@ -117,6 +117,9 @@ public class BasicThread {
      *     The corruption can manifest itself at any time after the actual damage occurs, even hours or days in the future.
      *     综上所示，释放掉监控器可能会导致受监控器保护的某些对象死亡，一旦其它线程继续调用这些对象，将会导致不可预知的后果。
      *
+     *  6. thread.interrupt()
+     *     尽管方法的名称是"停止"、"终止"，但这个方法并不会停止一个正在运行的线程，还需要加入一个判断(比如isInterrupted())，再配合代码(比如if()或者while()条件语句)才可以停止线程的运行。 {说穿了，这里的停止线程，实际上就是通过条件判断强制性使线程执行完run()，自然死亡}
+     *
      *  <线程进入Runnable状态大体分为如下5种情况>
      *  1. 调用sleep方法后经过的时间已经超出指定休眠时长(TimeUnit.SCEONDS.sleep(1))
      *  2. 线程调用的IO阻塞方法已返回，阻塞方法已经执行完毕(比如Scanner.nextLine())
@@ -197,12 +200,12 @@ public class BasicThread {
      *        2. 针对每一个线程都做一个特定的锁，想唤醒哪个线程就用哪一个object即可。
      * 9. 没有获取到同步监视器就对线程进行wait()操作，会报什么错？
      *    答: java.lang.IllegalMonitorStateException
-     *
      * 10. ReentrantLock无参构造函数默认使用的是非公平锁！这是为什么啊？
      *    答: 非公平锁在性能上比公平锁有很大提升。
      *        假设线程A持有锁，并且线程B请求该锁，由于锁已经被持有，因此线程B将被挂起。当A释放锁时，B将被唤醒(注意，唤醒线程并非是一瞬间的事情，很可能有一定的延迟)。在B被唤醒的过程中，如果线程C
      *        也请求该锁，那么线程C很可能会在线程B被完全唤醒之前，完成"获取锁"、"执行代码"以及"释放锁"这三个步骤。这样就是一个双赢的局面，线程C被提前执行且线程B的开始执行时间也没有延迟。
      *        系统整体的吞吐量得到了提高。
+     * 11. TODO ReentrantLock.lockInterruptibly()为何遇见interrupt()标志位为false的线程就会报错: java.lang.InterruptedException?
      */
 
     public static void main(String[] args){

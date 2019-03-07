@@ -74,11 +74,29 @@ public class Entrance {
      *     lock.getQueueLength()
      *          概念: 返回等待获取某把锁的线程个数。
      *     lock.getWaitQueueLength()
-     *          概念: 返回被某个Condition wait()的线程个数
+     *          概念: 返回被某个Condition wait()阻塞的线程个数
      *
      *  t10 方法hasQueuedThread()、hasQueuedThreads()以及hasWaiters()
+     *     lock.hasQueuedThread(Thread thread)
+     *          概念: 查询指定的线程是否正在等待获取此锁定
+     *     lock.hasQueuedThreads(Thread thread)
+     *          概念: 查询是否有线程正在等待获取此锁定
+     *     lock.hasWaiters(Thread thread)
+     *          概念: 是否有线程正在等待与此锁定有关的Condition条件
      *
+     *  t11 方法isFair()、isHeldByCurrentThread()以及isLocked()
+     *     boolean isFair()
+     *          概念: 判断该锁是不是公平锁
+     *     boolean isHeldByCurrentThread()
+     *          概念: 判断当前线程是否保持此锁定
+     *     boolean isLocked()
+     *          概念: 判断该锁是否被任意线程持有
      *
+     *  t12 方法lockInterruptibly()、tryLock()以及tryLock(long timeout, TImeUnit unit)
+     *     void lockInterruptibly()
+     *          概念: 如果当前线程未被中断，则获取锁定，如果已经被中断，则出现异常。
+     *          思考: 请注意，lock.lock()并不会使线程中断，哪怕当前线程被执行了interrupt()
+     *               实际上，thread.interrupt()并没有使线程立即停止下来的能力，甚至根本就没有停止线程的能力，只不过lock.lockInterruptibly()在执行时会去检查线程的中断标志位，而lock.lock()没有检查而已。
      */
     public static void main(String[] args) {
 
