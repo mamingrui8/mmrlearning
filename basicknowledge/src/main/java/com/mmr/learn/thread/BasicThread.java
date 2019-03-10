@@ -206,6 +206,9 @@ public class BasicThread {
      *        也请求该锁，那么线程C很可能会在线程B被完全唤醒之前，完成"获取锁"、"执行代码"以及"释放锁"这三个步骤。这样就是一个双赢的局面，线程C被提前执行且线程B的开始执行时间也没有延迟。
      *        系统整体的吞吐量得到了提高。
      * 11. TODO ReentrantLock.lockInterruptibly()为何遇见interrupt()标志位为false的线程就会报错: java.lang.InterruptedException?
+     *
+     * 12. TODO 在没有获取锁时，释放了锁，会报什么错呢？
+     *
      */
 
     public static void main(String[] args){

@@ -94,9 +94,15 @@ public class Entrance {
      *
      *  t12 方法lockInterruptibly()、tryLock()以及tryLock(long timeout, TImeUnit unit)
      *     void lockInterruptibly()
-     *          概念: 如果当前线程未被中断，则获取锁定，如果已经被中断，则出现异常。
-     *          思考: 请注意，lock.lock()并不会使线程中断，哪怕当前线程被执行了interrupt()
+     *          概念: 如果当前线程未被"中断"，则获取锁定，如果已经被"中断"，则出现异常。
+     *          思考: 请注意，与lock.lockInterruptibly()不同的是，lock.lock()并不会受interrupt()的影响，哪怕线程被标记上了interrupt() = true， lock.lock()也不会抛出异常，而是像往常一样继续执行。
      *               实际上，thread.interrupt()并没有使线程立即停止下来的能力，甚至根本就没有停止线程的能力，只不过lock.lockInterruptibly()在执行时会去检查线程的中断标志位，而lock.lock()没有检查而已。
+     *     void tryLock()
+     *          概念: 与lock.lock()非常类似，tryLock()同样是用于获取锁定的。
+     *                与lock.lock()不同的是，当该监视器对象被其他线程锁定时，tryLock()不会阻塞，而是立刻返回false 【Tips: lock.lock()在这种情况时会 阻塞，进入锁的等待队列中】
+     *     void tryLock(long timeout, TimeUnit unit)
+     *          概念:
+     *  t13
      */
     public static void main(String[] args) {
 
