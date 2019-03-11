@@ -21,6 +21,8 @@ public class Entrance {
      *  t3 Condition的初步使用方式
      *     思考: 在lock.lock()拿到对象监视器后，由于调用了Condition.await()方法，当前线程(ThreadA)进入了WAITING状态。
      *
+     *     condition.await(long time, TimeUnit time)   等待指定时间后继续执行后续代码。
+     *
      *  t4 使用单个Condition实现等待/通知
      *     思考: await()和signal()中的lock.lock();针对的是同一把锁，也即同一个对象监视器，因此当signal()执行后，处于await()状态下的线程将得以唤醒、
      *           总结:
@@ -101,11 +103,11 @@ public class Entrance {
      *          概念: 与lock.lock()非常类似，tryLock()同样是用于获取锁定的。
      *                与lock.lock()不同的是，当该监视器对象被其他线程锁定时，tryLock()不会阻塞，而是立刻返回false 【Tips: lock.lock()在这种情况时会 阻塞，进入锁的等待队列中】
      *     void tryLock(long timeout, TimeUnit unit)
-     *          概念: 如果在给定的时间内，另一个线程没有保持住，那么当时间过去后且调用tryLock()的线程尚未中断，则获取该锁定。
+     *          概念: 如果在给定的时间内，另一个线程没有保持住，若调用tryLock()的线程尚未中断，则获取该锁定。
      *          思考: 这里使用interruput()看看 书上说的"中断"指的是真正的线程中断，还是只是个标志位而已。
      *                以下以thread.tryLock(3)为例
-     *                1. 实验发现，tryLock(3)并非意味着针对每个线程都要等上3秒才进行验证操作，它首先会检查当前锁是否被其他线程持有，如果没有被持有，则立刻返回true并且获得锁定!
-     *                   当且仅当检查到锁被其它线程持有了，才会使当前线程阻塞，直到3秒后再进行验证操作。
+     *                1. 实验发现，tryLock(3)意思是在3秒钟内监控锁，若锁被其它线程释放，则立刻获得该锁。
+     *                   若锁被其它线程持有，则在这3秒钟之内持续监控，3秒后则返回false
      *                2. thread.tryLock()同样会受到interrrupt()的影响，直接抛出java.lang.InterruptedException！！！
      *     总结:
      *           1. lock.tryLock()的好处显而易见，有它在，线程不再像lock.lock()那样盲目的等待，而是聪明的、在恰当的时间段退出锁的争夺。
@@ -116,7 +118,23 @@ public class Entrance {
      *              2. 若在锁的外部，我们可以通过lockInterruptibly(),tryLock或是tryLock()的方式，不让指定线程执行run()
      *
      *  t13 方法awaitUninterruptibly()
+     *          概念: 普通的condition.await() 会受到interrupt()的影响，抛出java.lang.InterruptedException异常
+     *                但awaitUninterruptibly()则不会。
      *
+     *  14. 方法awaitUntil(Date date)
+     *          概念:  使线程等待指定时间后自动苏醒以便继续执行代码，当然了，在等待中线程可以被主动唤醒。
+     *          思考:  与await(long time, TimeUnit unit)进行比较:
+     *                 相同之处:
+     *                           1. 都会等待，等待结束后进入Runnable状态，如果锁未被其它线程持有，则立刻获得锁并执行后续代码。 如果不幸被其它线程持有，则抛出java.lang.InterruptedExpection异常、
+     *                           2. 都能被condition.signal()或condition.signalAll()提前唤醒。
+     *                 不同之处: await(long time, TimeUnit unit)等待的是指定的时长，而awaitUntil(Date date)等待的是到指定的时刻。
+     *
+     *  15. 使Condition实现顺序执行
+     *          概念: 使用Condition可以对多条线程执行不同业务进行排序，按照指定顺序执行。
+     *          思考:
+     *                1. Condition.await和signal() 能够唤醒指定系列的Condition等待，只接收指定系列的唤醒。
+     *                2. ReentrantLock在线程执行时是绝对唯一的，也即，同一时刻只有一个线程持有锁。
+     *                正是上述两个重要的特点，使得使用Condition对多条线程不同业务顺序执行成为了可能！
      */
     public static void main(String[] args) {
 

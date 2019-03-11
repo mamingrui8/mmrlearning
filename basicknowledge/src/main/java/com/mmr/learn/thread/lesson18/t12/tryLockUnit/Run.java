@@ -15,7 +15,6 @@ public class Run {
         Thread threadA = new Thread(runnable);
         threadA.setName("A");
         threadA.start();
-        threadA.interrupt();
 
         Thread threadB = new Thread(runnable);
         threadB.setName("B");

@@ -207,8 +207,21 @@ public class BasicThread {
      *        系统整体的吞吐量得到了提高。
      * 11. TODO ReentrantLock.lockInterruptibly()为何遇见interrupt()标志位为false的线程就会报错: java.lang.InterruptedException?
      *
-     * 12. TODO 在没有获取锁时，释放了锁，会报什么错呢？
+     * 12. 在没有获取锁时，释放了锁，会报什么错呢？
+     *     答: java.lang.IllegalMonitorStateException。
+     *         实际上，lock.lock()获取的是lock对象的资源监控器(monitor)
      *
+     * 13. signal()与notify()有什么共性和区别？经观察发现，Condition类同样有notify()方法[毕竟只要是Object都有此方法]，如果错使用了condition.notify()会出现什么后果？
+     *     答: 共性在于它们都在解决线程停顿的问题
+     *         区别在于notify()只能用在synchronized()同步代码块内部，如果被误用在其他地方(比如代替了signal()去解开condition.await())，将报错:java.lang.IllegalMonitorStateException
+     *         为什么？其实也不难理解，synchronized()其实就是在获取某个对象的资源监控器，只有获取了monitor，才有能力去解开其它缺乏monitor的线程停顿。
+     *         【引申】wait()使线程停顿其实可以理解成: 由于缺乏某个对象的资源监控器，导致线程停顿。 因此，如果想解救他人于危难之中，先决条件是自己要有资源监控器。自己都没钱，怎么救别人？？？
+     *
+     *
+     *
+     *
+     *  [练习题]
+     *  1. 使用ReentrantLock实现 程序业务顺序执行，具体参考lesson18-t15
      */
 
     public static void main(String[] args){

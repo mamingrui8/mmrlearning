@@ -8,9 +8,10 @@ public class MyService {
 
     public void waitMethod(){
         try {
-            if(lock.tryLock(3, TimeUnit.SECONDS)){
+            if(lock.tryLock(10, TimeUnit.SECONDS)){
                 System.out.println(Thread.currentThread().getName() + " 获得锁定的时间是: " + System.currentTimeMillis());
-                TimeUnit.SECONDS.sleep(100);
+                TimeUnit.SECONDS.sleep(15);
+                System.out.println(Thread.currentThread().getName() + " 释放掉锁，当前的时间是: " + System.currentTimeMillis());
             }else{
                 System.out.println(Thread.currentThread().getName() + " 没能获得锁, 当前的时间是: " + System.currentTimeMillis());
             }
