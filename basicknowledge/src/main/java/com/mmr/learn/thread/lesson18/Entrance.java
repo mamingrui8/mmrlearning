@@ -101,8 +101,22 @@ public class Entrance {
      *          概念: 与lock.lock()非常类似，tryLock()同样是用于获取锁定的。
      *                与lock.lock()不同的是，当该监视器对象被其他线程锁定时，tryLock()不会阻塞，而是立刻返回false 【Tips: lock.lock()在这种情况时会 阻塞，进入锁的等待队列中】
      *     void tryLock(long timeout, TimeUnit unit)
-     *          概念:
-     *  t13
+     *          概念: 如果在给定的时间内，另一个线程没有保持住，那么当时间过去后且调用tryLock()的线程尚未中断，则获取该锁定。
+     *          思考: 这里使用interruput()看看 书上说的"中断"指的是真正的线程中断，还是只是个标志位而已。
+     *                以下以thread.tryLock(3)为例
+     *                1. 实验发现，tryLock(3)并非意味着针对每个线程都要等上3秒才进行验证操作，它首先会检查当前锁是否被其他线程持有，如果没有被持有，则立刻返回true并且获得锁定!
+     *                   当且仅当检查到锁被其它线程持有了，才会使当前线程阻塞，直到3秒后再进行验证操作。
+     *                2. thread.tryLock()同样会受到interrrupt()的影响，直接抛出java.lang.InterruptedException！！！
+     *     总结:
+     *           1. lock.tryLock()的好处显而易见，有它在，线程不再像lock.lock()那样盲目的等待，而是聪明的、在恰当的时间段退出锁的争夺。
+     *              lockInterruptibly()也是lock.lock()的升级版。
+     *           2. 上述三兄弟都有一个共同的特点——被interrupt()标志位打断，都会抛出java.lang.InterrupedException异常
+     *           3. 关于线程的中断方式:
+     *              1. 若在锁的内部，我们可以通过interrupt()标志位的方式中断线程的执行。
+     *              2. 若在锁的外部，我们可以通过lockInterruptibly(),tryLock或是tryLock()的方式，不让指定线程执行run()
+     *
+     *  t13 方法awaitUninterruptibly()
+     *
      */
     public static void main(String[] args) {
 

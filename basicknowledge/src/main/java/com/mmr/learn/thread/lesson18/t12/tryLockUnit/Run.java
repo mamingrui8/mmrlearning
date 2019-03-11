@@ -7,8 +7,18 @@ public class Run {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                System.out.println("Thread");
+                System.out.println(Thread.currentThread().getName() + " 调用waitMethod()的时间是: " + System.currentTimeMillis());
+                service.waitMethod();
             }
         };
+
+        Thread threadA = new Thread(runnable);
+        threadA.setName("A");
+        threadA.start();
+        threadA.interrupt();
+
+        Thread threadB = new Thread(runnable);
+        threadB.setName("B");
+        threadB.start();
     }
 }

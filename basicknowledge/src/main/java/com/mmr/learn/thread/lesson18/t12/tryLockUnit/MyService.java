@@ -10,8 +10,9 @@ public class MyService {
         try {
             if(lock.tryLock(3, TimeUnit.SECONDS)){
                 System.out.println(Thread.currentThread().getName() + " 获得锁定的时间是: " + System.currentTimeMillis());
+                TimeUnit.SECONDS.sleep(100);
             }else{
-                System.out.println(Thread.currentThread().getName() + " 没能获得锁");
+                System.out.println(Thread.currentThread().getName() + " 没能获得锁, 当前的时间是: " + System.currentTimeMillis());
             }
         }catch(InterruptedException e){
             e.printStackTrace();
