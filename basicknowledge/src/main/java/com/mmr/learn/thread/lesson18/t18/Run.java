@@ -1,4 +1,4 @@
-package com.mmr.learn.thread.lesson18.t16;
+package com.mmr.learn.thread.lesson18.t18;
 
 public class Run {
     public static void main(String[] args){

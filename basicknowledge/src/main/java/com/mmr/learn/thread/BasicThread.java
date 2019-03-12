@@ -217,6 +217,8 @@ public class BasicThread {
      *         为什么？其实也不难理解，synchronized()其实就是在获取某个对象的资源监控器，只有获取了monitor，才有能力去解开其它缺乏monitor的线程停顿。
      *         【引申】wait()使线程停顿其实可以理解成: 由于缺乏某个对象的资源监控器，导致线程停顿。 因此，如果想解救他人于危难之中，先决条件是自己要有资源监控器。自己都没钱，怎么救别人？？？
      *
+     * 14. synchronized和ReentrantLock的区别
+     *     答: Lock关键字完全可以替代synchronized，相当于是synchronized的进阶。
      *
      *
      *

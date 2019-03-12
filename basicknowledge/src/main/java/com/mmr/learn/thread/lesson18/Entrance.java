@@ -121,7 +121,7 @@ public class Entrance {
      *          概念: 普通的condition.await() 会受到interrupt()的影响，抛出java.lang.InterruptedException异常
      *                但awaitUninterruptibly()则不会。
      *
-     *  14. 方法awaitUntil(Date date)
+     *  t14. 方法awaitUntil(Date date)
      *          概念:  使线程等待指定时间后自动苏醒以便继续执行代码，当然了，在等待中线程可以被主动唤醒。
      *          思考:  与await(long time, TimeUnit unit)进行比较:
      *                 相同之处:
@@ -129,12 +129,47 @@ public class Entrance {
      *                           2. 都能被condition.signal()或condition.signalAll()提前唤醒。
      *                 不同之处: await(long time, TimeUnit unit)等待的是指定的时长，而awaitUntil(Date date)等待的是到指定的时刻。
      *
-     *  15. 使Condition实现顺序执行
+     *  t15. 使Condition实现顺序执行
      *          概念: 使用Condition可以对多条线程执行不同业务进行排序，按照指定顺序执行。
      *          思考:
      *                1. Condition.await和signal() 能够唤醒指定系列的Condition等待，只接收指定系列的唤醒。
      *                2. ReentrantLock在线程执行时是绝对唯一的，也即，同一时刻只有一个线程持有锁。
      *                正是上述两个重要的特点，使得使用Condition对多条线程不同业务顺序执行成为了可能！
+     *
+     *   ========================================
+     *   由于ReentrantLock具有完全互斥排他的效果，因此同一时间只会有一条线程执行ReentrantLock.lock()方法后面的任务。
+     *   这样做虽然保证了实例变量的线程安全性，但执行效率非常低下。
+     *   在JDK中提供了一种读写锁ReentrantReadWriteLock类，使用它可以加快运行速率，在某些不需要操作实例变量的方法中，完全可以使用
+     *   读写锁ReentrantReadWriteLock来提升该方法的执行速度。
+     *
+     *   读写锁有表示也有两个锁:
+     *   1. 读操作相关的锁，也称作共享锁。
+     *   2. 写操作相关的锁，也称作排他锁。
+     *
+     *   多个读锁之间不互斥，读锁和写锁互斥，写锁和写锁互斥。
+     *   ========================================
+     *
+     *   t16 类ReentrantReadWriteLock的使用: 【读-读共享】
+     *       执行结果如下:
+     *                  获得读锁 B 1552360638803
+     *                  获得读锁 A 1552360638804
+     *       思考:
+     *             ThreadA和ThreadB这两个线程几乎同时获得锁，执行ReentrantReadWriteLock.lock()后方的代码，极大的提升了程序运行的效率。
+     *
+     *   t17 类ReentrantReadWriteLock的使用: 【写-写互斥】
+     *       执行结果如下:
+     *                  获得写锁 A 1552361008460
+     *                  获得写锁 B 1552361018468
+     *       思考:
+     *             使用ReentrantReadWriteLock.lock()就是同一时间只允许一个线程执行lock()后面的代码。
+     *
+     *   t18 ReentrantReadWriteLock的使用: 【读-写互斥】
+     *       执行结果如下:
+     *                  获得读锁 A 1552361588385
+     *                  获得写锁 B 1552361598391
+     *       思考:
+     *             1. 此实验说明读写操作互斥
+     *             2. 只要出现了"写"操作，那就一定是互斥的
      */
     public static void main(String[] args) {
 

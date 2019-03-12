@@ -1,4 +1,4 @@
-package com.mmr.learn.thread.lesson18.t16;
+package com.mmr.learn.thread.lesson18.t18;
 
 public class ThreadB extends Thread{
     private Service service;
@@ -9,6 +9,6 @@ public class ThreadB extends Thread{
 
     @Override
     public void run(){
-        service.read();
+        service.write();
     }
 }
