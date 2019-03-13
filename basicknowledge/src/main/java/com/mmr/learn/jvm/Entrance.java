@@ -13,6 +13,9 @@ public class Entrance {
      *
      *   t2 TODO 详细的描述了一个常见的类中的元素在内存中的加载机制
      *
+     *   t3 TODO 直接内存与堆内存的比较
+     *      https://blog.csdn.net/leaf_0303/article/details/78961936
+     *
      *   疑惑:
      *   1. 在方法内部通过new关键字创建的对象放在堆中还是java虚拟机栈
      *   2. 已经被虚拟机加载的类信息有哪些？
