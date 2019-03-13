@@ -47,6 +47,9 @@ public class BasicThread {
      *
      * lesson18 ReentrantLock类
      *
+     * lesson19 定时器Timer
+     * lesson20 synchronized底层实现原理
+     *
      * topic    经典题目
      *
      * <上下文的概念>
