@@ -48,7 +48,8 @@ public class BasicThread {
      * lesson18 ReentrantLock类
      *
      * lesson19 定时器Timer
-     * lesson20 synchronized底层实现原理
+     * lesson20 TODO synchronized底层实现原理
+     *          参考:https://blog.csdn.net/javazejian/article/details/72828483
      *
      * topic    经典题目
      *

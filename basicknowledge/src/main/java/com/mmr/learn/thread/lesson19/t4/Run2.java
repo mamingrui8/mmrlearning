@@ -2,6 +2,7 @@ package com.mmr.learn.thread.lesson19.t4;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
@@ -23,6 +24,7 @@ public class Run2 {
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        //TODO
+        Timer timer = new Timer();
+        timer.schedule(task, calendar.getTime(), 4000);
     }
 }
