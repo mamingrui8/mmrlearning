@@ -8,15 +8,15 @@ import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Description: 测试scheduleAtFixedRate() 任务不延时结束
+ * Description: 测试scheduleAtFixedRate方法任务延时， 任务的执行时间 > 时间间隔
  * User: MaMingRui
  * Email: mamr@broada.com
- * Date: 2019年03月14日 17:58
+ * Date: 2019年03月14日 22:57
  * ModificationHistory: Who         When         What
  * ---------  --------     ---------------------------
  */
 @SuppressWarnings("Duplicates")
-public class t9_3_run {
+public class t9_4_run {
     private static Timer timer = new Timer();
     private static int runCount = 0;
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -25,7 +25,7 @@ public class t9_3_run {
         public void run() {
             try {
                 System.out.println("begin 开始运行！时间为: " + sdf.format(new Date()));
-                TimeUnit.SECONDS.sleep(2);
+                TimeUnit.SECONDS.sleep(10);
                 System.out.println("begin 结束运行！时间为: " + sdf.format(new Date()));
                 System.out.println("");
                 runCount++;
