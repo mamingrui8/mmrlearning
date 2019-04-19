@@ -1,17 +1,14 @@
 package com.mmr.learn.theory.thinkinginjava;
 
-import java.util.List;
 
 /**
  * Thinking in Java
  */
 public class Entrance {
     /**
-     *
+     * 习题答案: http://greggordon.org/java/tij4/solutions.htm
      */
-    public static void main(String[] args) {
-        for(;;){
 
-        }
-    }
+
+
 }

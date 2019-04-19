@@ -1,7 +1,7 @@
 package com.mmr.learn.theory;
 
 /**
- * Description: java原理
+ * Description: java书籍
  * User: MaMingRui
  * Email: mamr@broada.com
  * Date: 2019年02月14日 17:14
