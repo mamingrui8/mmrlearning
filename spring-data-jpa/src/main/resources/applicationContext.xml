@@ -31,7 +31,7 @@
         <property name="dataSource" ref="dataSource"/>
         <!-- 设置jpa访问数据库时显露出来的特性 -->
         <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"><!-- hiernate jpa相关的特性 -->
                 <!-- 配置hibernate相关属性 -->
                 <!-- 配置访问的数据库类型 -->
                 <property name="database" value = "MYSQL"/>
@@ -39,14 +39,31 @@
                 <property name="generateDdl" value="true"/>
                 <!-- 是否打印sql -->
                 <property name="showSql" value="true"/>
+
             </bean>
         </property>
 
         <!-- 扫描的实体包 -->
-        <property name="packagesToScan">
+        <property name="packagesToScan"> <!-- 由LocalContainerEntityManagerFactoryBean提供 -->
             <list>
-                <value>com.mmr.pojo</value>
+                <value>com.jpa.pojo</value> <!-- 逐层往下扫描  -->
             </list>
         </property>
     </bean>
+
+    <!-- 配置Hibernate的事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <!-- 配置开启注解事务处理 (目的是为了写@Transactionl 注意: 如果@Transactionl修饰在@Test 测试方法上，那么所有操作都会回滚！)-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- Spring Data JPA的配置 -->
+    <!-- base-package: 扫描dao接口所在 的包 -->
+    <!--
+         此标签一定要配置，spring-data-jpa默认会接口提供实现 ，使用的是JDK的Proxy动态代理机制，
+         将SimpleJpaRepositoryImpl类型的对象作为一个代理对象提供给自定义的dao接口 ，作为动态代理实现。
+    -->
+    <jpa:repositories base-package="com.jpa.dao"/>
 </beans>
