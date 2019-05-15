@@ -20,7 +20,6 @@
     -->
     <modules>
         <module>basicknowledge</module>
-        <module>spring-data-jpa</module>
     </modules>
 
     <!-- 自定义变量 -->
