@@ -132,6 +132,18 @@ public class TestLambda {
         newEmployeeList2.forEach(System.out::println);
     }
 
+    /**
+     * 优化4:
+     */
+    public void test8(){
+        //获取所有的员工信息列表
+        List<Employee> employeeList = new ArrayList<>();
+
+        employeeList.stream()
+                .filter((e) -> e.getSalary() >=5000)
+                .limit(2)
+                .forEach(System.out::println);
+    }
 }
 
 interface Predicate<Employee>{
