@@ -1,5 +1,7 @@
 package com.mmr.learn.jdk8.testlambda;
 
+import com.mmr.learn.jdk8.entity.Employee;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
