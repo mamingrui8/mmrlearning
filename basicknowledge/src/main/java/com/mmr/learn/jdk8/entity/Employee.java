@@ -18,6 +18,13 @@ public class Employee{
         this.age = age;
     }
     private String name;
-    private int age;
-    private double salary;
+    private Integer age;
+    private Double salary;
+    private Status status;
+
+    public Employee(String name, Integer age, Double salary) {
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
+    }
 }

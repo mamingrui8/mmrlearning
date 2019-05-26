@@ -83,7 +83,7 @@ public class Test {
 
     @org.junit.Test
     public void test2(){
-        Employee employee = new Employee("Jack", 25, 22000);
+        Employee employee = new Employee("Jack", 25, 22000D);
 
         //之前的写法
         Supplier<String> supplier1 = () -> employee.getName();
