@@ -10,6 +10,9 @@ public class Entrance {
      *  t6 创建Stream
      *  t7 查找与匹配 (终止操作)
      *  t8 归约与收集
+     *  t9 Stream API练习
+     *  t10 并行流与顺序流
+     *  t11 Optional容器类
      */
 
     public static void main(String[] args) {
