@@ -1,12 +1,9 @@
 package com.mmr.learn.arithmetic.lesson1;
 
 /**
- * 选择排序
- *
- * 交换的总次数是 N  算法的时间效率取决于比较的次数
+ * 插入排序
  */
-public class Selection {
-
+public class Insertion {
     public static Integer compareNum = 0;
 
     public static Integer exchNum = 0;
@@ -14,14 +11,11 @@ public class Selection {
      * 排序算法 具体实现
      */
     public static void sort(Comparable[] a){
-        int n = a.length; //数组的长度
-        for(int i=0; i< n; i++){
-            int minIndex = i; //本轮最小数值的下标
-            for(int j = i+1; j<n; j++){
-                if(less(a[j], a[minIndex]))
-                    minIndex = j;
+        int length = a.length;
+        for(int i =1; i<a.length; i++){
+            for(int j = i; j>0 && less(a[j], a[j-1]); j--){ //如果不满足条件，则for循环会直接被终止  因此，插入排序利用了之前的排序结果
+                exch(a, j, j-1);
             }
-            exch(a, i, minIndex);
         }
     }
 
@@ -71,7 +65,7 @@ public class Selection {
         //Integer[] target = new Integer[]{1,5,2,3,9,6};
         Integer[] target = new Integer[]{1, 2, 3, 4, 5};
         sort(target);
-        //show(target);
+        show(target);
         System.out.println("compareNum->" + compareNum);
         System.out.println("exchNum->" + exchNum);
     }
