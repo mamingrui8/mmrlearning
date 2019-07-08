@@ -20,6 +20,7 @@
     -->
     <modules>
         <module>basicknowledge</module>
+        <module>mongodb</module>
     </modules>
 
     <!-- 自定义变量 -->
