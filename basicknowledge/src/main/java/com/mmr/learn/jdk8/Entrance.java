@@ -2,6 +2,12 @@ package com.mmr.learn.jdk8;
 
 import com.mmr.learn.jdk8.entity.Employee;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
+
 public class Entrance {
     /*
      *  t3 Lambda练习
@@ -28,6 +34,17 @@ public class Entrance {
         System.out.println(Employee.class); //class com.mmr.learn.jdk8.entity.Employee   (这是我自己定义的类型)
 
         System.out.println(Integer.class);
+
+        ZonedDateTime zonedDateTime = Instant.now().atZone(ZoneId.systemDefault());
+
+        System.out.println(Instant.now().plusMillis(TimeUnit.HOURS.toMillis(8)));
+
+        test1();
     }
 
+    public static void test1(){
+        Integer[][] ss = {{1,2,3}, {2,2,3}, {3,3,4}};
+
+        System.out.println(ss[1][1]);
+    }
 }

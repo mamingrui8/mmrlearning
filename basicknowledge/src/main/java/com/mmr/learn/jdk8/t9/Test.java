@@ -6,6 +6,7 @@ import com.mmr.learn.jdk8.entity.Status;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -48,6 +49,34 @@ public class Test {
                 .map((e)->1)
                 .reduce(0, (Integer::sum));
         System.out.println("流中共有: " + num + "个元素");
+    }
+
+    /**
+     * 给定两个集合，分别找出名称相同和名称不同的数据，组成两个新的集合
+     */
+    @org.junit.Test
+    public void test3(){
+        List<Employee> list1 = Arrays.asList(
+                new Employee("Jack1", 18, 8888D, Status.BUSY),
+                new Employee("Jack2", 20, 6666D, Status.RELAX),
+                new Employee("Jack3", 20, 6666D, Status.RELAX)
+        );
+
+        List<Employee> list2 = Arrays.asList(
+                new Employee("Jack2", 25, 9999D, Status.BUSY),
+                new Employee("Jack4", 26, 1111D, Status.RELAX),
+                new Employee("Jack3", 27, 2222D, Status.RELAX),
+                new Employee("Jack5", 27, 2222D, Status.RELAX)
+        );
+
+
+        List<Employee> collect = list2.stream().filter(
+                e2 -> list1.stream().anyMatch(
+                        e1 -> e2.getName().equals(e1.getName()) || list2.stream().noneMatch(e3 -> e3.getName().equals(e1.getName()))
+                )
+        ).collect(Collectors.toList());
+
+        collect.forEach(System.out::println);
     }
 
 }
