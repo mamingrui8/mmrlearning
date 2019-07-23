@@ -8,6 +8,8 @@ import java.util.*;
  * Cloneable -> 具有克隆的能力
  * java.io.Serializable -> 具有序列化的能力
  * @param <E>
+ *
+ * 特别注意: java.util.ArrayList和 Arrays$ArrayList的区别！尤其是后者的add()
  */
 public class ArrayList<E> extends AbstractList<E>
         implements List<E>, RandomAccess, Cloneable, java.io.Serializable{
