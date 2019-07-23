@@ -21,6 +21,7 @@ public class Entrance {
      *  t11 Optional容器类
      *  t12 接口中的默认方法和静态方法
      *  t13 新时间与日期
+     *  t14 String.chars()
      */
 
     public static void main(String[] args) {
