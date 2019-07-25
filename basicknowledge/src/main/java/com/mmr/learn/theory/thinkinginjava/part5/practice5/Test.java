@@ -1,4 +1,4 @@
-package com.mmr.learn.theory.thinkinginjava.part5.practice3;
+package com.mmr.learn.theory.thinkinginjava.part5.practice5;
 
 public class Test {
     Test(){
