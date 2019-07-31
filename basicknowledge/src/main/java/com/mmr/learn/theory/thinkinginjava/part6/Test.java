@@ -1,5 +1,7 @@
 package com.mmr.learn.theory.thinkinginjava.part6;
 
+import com.mmr.learn.theory.thinkinginjava.part7.practice15.*;
+
 /**
  * Description: TODO
  * User: MaMingRui
@@ -8,7 +10,7 @@ package com.mmr.learn.theory.thinkinginjava.part6;
  * ModificationHistory: Who         When         What
  * ---------  --------     ---------------------------
  */
-class Test123232322323frwefrewr {
+class Test extends Main{
     /**
      * 当编译一个.java文件后，由于每一个.java文件中的类都会输出一个class文件，因此会得到许多.class文件，
      *
@@ -18,4 +20,8 @@ class Test123232322323frwefrewr {
      * 非public类输出的.class文件或许有很多，但它们都没有自己独立的.java文件。因此，一个类文件有且仅有一个构件，
      * 如果希望这些类文件同属于一个群组，就必须使用到关键字"package"
      */
+
+    public void tt(){
+        test();
+    }
 }
