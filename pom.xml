@@ -21,6 +21,7 @@
     <modules>
         <module>basicknowledge</module>
         <module>mongodb</module>
+        <module>springcloud</module>
     </modules>
 
     <!-- 自定义变量 -->
