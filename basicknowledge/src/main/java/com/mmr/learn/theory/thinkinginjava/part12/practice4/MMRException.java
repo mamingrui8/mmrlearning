@@ -12,7 +12,7 @@ public class MMRException extends Throwable{
         super();
     }
 
-    public void printStackTrace() {
-        System.out.println("出错了，我是自定义异常！");
-    }
+//    public void printStackTrace() {
+//        System.out.println("出错了，我是自定义异常！");
+//    }
 }
