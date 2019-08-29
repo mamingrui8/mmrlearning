@@ -1,4 +1,4 @@
-package com.mmr.learn.theory.thinkinginjava.practice18;
+package com.mmr.learn.theory.thinkinginjava.part12.practice18;
 
 /**
  * 工厂模式与接口
