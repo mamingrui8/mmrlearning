@@ -14,6 +14,7 @@
 
     <modules>
         <module>springcloud-eureka-single</module>
+        <module>springcloud-eureka-cluster</module>
     </modules>
 
 

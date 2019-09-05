@@ -118,6 +118,12 @@
             <version>1.4.11.Final</version>
             <!--<scope>test</scope>-->  <!-- test会导致只有测试时运用此包，编译和运行阶段都不会使用此包！ 这会直接导致对象传输失败！ -->
         </dependency>
+        <dependency>
+            <groupId>com.github.andrewoma.dexx</groupId>
+            <artifactId>dexx-collections</artifactId>
+            <version>0.2</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 
