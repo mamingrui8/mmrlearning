@@ -15,9 +15,8 @@
     <modules>
         <module>springcloud-eureka-single</module>
         <module>springcloud-eureka-cluster</module>
+        <module>springcloud-eureka-appservice</module>
     </modules>
-
-
 
     <properties>
         <java.version>1.8</java.version>
