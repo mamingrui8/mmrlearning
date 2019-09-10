@@ -19,7 +19,7 @@ public class Entrance {
      *             2848 Launcher
      *             336
      *             20820 KotlinCompileDaemon
-     *             20456 Run
+     *             20456 run
      *             11692 Jps
      *      如上所示，当前项目的编号为20456
      *     Step2: 查看堆栈信息

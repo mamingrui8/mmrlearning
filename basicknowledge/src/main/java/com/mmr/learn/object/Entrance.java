@@ -1,7 +1,7 @@
 package com.mmr.learn.object;
 
 /**
- * 对象 -- 参考java编程思想
+ * 对象
  */
 public class Entrance {
 
