@@ -1,5 +1,6 @@
 package com.mmr.learn.theory.thinkinginjava.part15.common;
 
-interface Generator<T> {
+@FunctionalInterface
+public interface Generator<T> {
     T next();
 }

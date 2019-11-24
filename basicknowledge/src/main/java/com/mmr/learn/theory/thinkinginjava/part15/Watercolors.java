@@ -1,0 +1,15 @@
+package com.mmr.learn.theory.thinkinginjava.part15;
+
+/**
+ * 水彩画 枚举类
+ * @author Charles Wesley
+ * @date 2019/11/24 19:05
+ */
+public enum Watercolors {
+    ZINC, LEMON_YELLOW, MEDIUM_YELLOW, DEEP_YELLOW, ORANGE,
+    BRILLIANT_RED, CRIMSON, MAGENTA, ROSE_MADDER, VIOLET,
+    CERULEAN_BULE_HUE, PHTHALO_BLUE, ULTRAMARINE,
+    COBALT_BLUE_HUE, PERMANENT_GREEN, VIRIDIAN_HUE,
+    SAP_GREEN, YELLOW_OCHRE, BURNT_SIENNA, RAW_UMBER,
+    BURNT_UMBER, PAYNES_GRAY, IVORY_BLACK
+}
