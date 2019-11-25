@@ -6,9 +6,11 @@ package com.mmr.learn.theory.thinkinginjava.part21;
  */
 public class Entrance {
     /*
-        1. LifeOff 定义任务
-        2. MainThread 测试LifeOff
-        3. BasicThreads Thread类 将Runnable对象转变为工作任务
-        4. MoreBasicThreads 添加更多的线程去驱动更多的任务
+        1. LifeOff                  定义任务
+        2. MainThread               测试LifeOff
+        3. BasicThreads Thread类    将Runnable对象转变为工作任务
+        4. MoreBasicThreads         添加更多的线程去驱动更多的任务
+        5. CacheThreadPool          使用Executor来代替在MoreBasicThread中显示地创建Thread对象。
+        6. FixedThreadPool          使用FixedThreadPool代替CacheThreadPool来帮助我们管理和运行任务
      */
 }
