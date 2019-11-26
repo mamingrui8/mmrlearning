@@ -9,6 +9,12 @@ import java.util.concurrent.Executors;
  */
 public class FixedThreadPool {
     public static void main(String[] args) {
+        //一次性的预支高昂的线程分配开销
+        /*
+            好处:
+            1. 一次创建，终身受益
+            2. 资源不会被滥用
+         */
         Executors.newFixedThreadPool(5);
     }
 }

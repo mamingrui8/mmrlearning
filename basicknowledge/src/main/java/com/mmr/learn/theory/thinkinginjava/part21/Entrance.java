@@ -12,5 +12,11 @@ public class Entrance {
         4. MoreBasicThreads         添加更多的线程去驱动更多的任务
         5. CacheThreadPool          使用Executor来代替在MoreBasicThread中显示地创建Thread对象。
         6. FixedThreadPool          使用FixedThreadPool代替CacheThreadPool来帮助我们管理和运行任务
+        7. SingleThreadPool         可以看做是"线程数量为1的FixedThreadPool"
+     */
+
+    /*
+        疑问:
+        1. SingleThreadPool是如何维护它自己的悬挂任务队列(任务等待队列)？
      */
 }

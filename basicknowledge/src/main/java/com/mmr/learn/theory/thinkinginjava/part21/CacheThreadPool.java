@@ -21,5 +21,17 @@ public class CacheThreadPool {
         //调用Executor的shutdown()方法后，Executor将不再接收新的任务，当前线程(在本例中，即驱动main()的线程)将继续运行在shutdown()被调用前提交的所有任务。
         //这个程序将在Executor中的所有任务完成后尽快退出(并非是立刻退出！)
         exec.shutdown();
+
+        //下方的任务不会被线程调度器分配线程去执行，因为已经执行了ExecutorService.shutdown()
+        //如果把下方代码的注释打开，则会报错: java.util.concurrent.RejectedExecutionException
+//        for(int i = 0; i < 5; i++){
+//            exec.execute(new LifeOff());
+//        }
+
+        /*
+            选择CachedThreadPool的好处在于:
+            CachedThreadPool在程序的执行过程中，会自动创建出于所需数量相同的线程，然后在线程池回收旧线程时，停止创建新线程。
+            因此，CachedThreadPool是合理的Executor的首选。只有当CachedThreadPool会出现问题时，我们才需要切换到FixedThreadPool
+         */
     }
 }
