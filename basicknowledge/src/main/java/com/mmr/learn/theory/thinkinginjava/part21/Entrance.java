@@ -17,6 +17,10 @@ public class Entrance {
         8. TaskWithResult           定义一个实现了Callable接口的简单任务
         9. CallableDemo             介绍如何驱动实现了Callable接口的任务
         10.SleepTask                影响任务行为的方法——sleep() 休眠
+        11.SimplePriorities         线程的优先级
+        12.SimpleDaemon             后台线程 (创建的是显式的后台线程，以便设置它们的后台标志)
+        13.DaemonThreadFactory      定制的ThreadFactory (可以用它来定制由Executor创建出的线程的各项属性！如"是否为后台线程"、"线程的名称"、""线程的优先级)
+        14.DaemonFromFactory        通过ThreadFactory来初始化的Executors
 
         补充:
         1. ThreadShutDown           调用shutdown()命令后，处于悬挂队列中的任务还会得到执行吗？
