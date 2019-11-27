@@ -16,6 +16,8 @@ public class SingleThreadPool {
         1. 监听进入的套接字连接的任务
         2. 更新本地或远程日志
         3. 事件分发
+
+        自动的为加入的任务进行了序列化
      */
 
     public static void main(String[] args) {
