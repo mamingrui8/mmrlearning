@@ -21,6 +21,8 @@ public class Entrance {
         12.SimpleDaemon             后台线程 (创建的是显式的后台线程，以便设置它们的后台标志)
         13.DaemonThreadFactory      定制的ThreadFactory (可以用它来定制由Executor创建出的线程的各项属性！如"是否为后台线程"、"线程的名称"、""线程的优先级)
         14.DaemonFromFactory        通过ThreadFactory来初始化的Executors
+        15.DaemonThreadPoolExecutor 专门用于创建后台线程的线程池
+        16.DaemonsDontRunFinally    用于说明后台进程在不执行finally子句的情况下就会终止其run方法
 
         补充:
         1. ThreadShutDown           调用shutdown()命令后，处于悬挂队列中的任务还会得到执行吗？

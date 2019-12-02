@@ -15,7 +15,7 @@ public class DaemonThreadFactory implements ThreadFactory {
         Thread t = new Thread(r);
         //把DaemonThreadFactory当做变量来设置的Executors创建出来的线程全部设置成后台线程
         t.setDaemon(true);
-        t.setPriority(Thread.MAX_PRIORITY);
+        //t.setPriority(Thread.MAX_PRIORITY);
         return t;
     }
 }
