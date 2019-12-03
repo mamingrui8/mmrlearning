@@ -24,6 +24,9 @@ public class Entrance {
         15.DaemonThreadPoolExecutor 专门用于创建后台线程的线程池
         16.DaemonsDontRunFinally    用于说明后台进程在不执行finally子句的情况下就会终止其run方法
 
+        17.SimpleThread             [编码的变体]不用实现Runnable接口，也成为任务并被执行
+        18.SelfManaged              [编码的变体]自管理的Runnable接口
+
         补充:
         1. ThreadShutDown           调用shutdown()命令后，处于悬挂队列中的任务还会得到执行吗？
      */

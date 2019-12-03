@@ -1,7 +1,5 @@
 package com.mmr.learn.theory.thinkinginjava.part21;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * 通过本案例可以可看，非后台线程执行完毕后(这里并不带代表该非后台线程)，进程并不会立刻被杀死，而是在一个不可预知的未来会被杀死(可能是0.5秒后，也可能是0.8秒钟)
  * 由非后台线程创建出的守护线程将得以运行，但在进程被杀死后，这些守护线程也会随之消亡
