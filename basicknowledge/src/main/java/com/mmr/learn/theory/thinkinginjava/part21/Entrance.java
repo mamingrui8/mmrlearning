@@ -25,7 +25,15 @@ public class Entrance {
         16.DaemonsDontRunFinally    用于说明后台进程在不执行finally子句的情况下就会终止其run方法
 
         17.SimpleThread             [编码的变体]不用实现Runnable接口，也成为任务并被执行
-        18.SelfManaged              [编码的变体]自管理的Runnable接口
+        18.SelfManaged              [编码的变体]自管理的Runnable接口  (可能导致对象不稳定)
+
+        19.InnerThread1              解决18中对象不稳定的方法——通过内部类将线程代码隐藏在类中  使用的是有名字的Thread
+        20.InnerThread2              同上 使用的是匿名内部类 - Thread
+        21.InnerRunnable1            同上 使用的是有名字的Runnable
+        22.InnerRunnable2            同上 使用的是匿名内部类 - Runnable
+        23.ThreadMethod              同上 用一个单独的方法来将线程代码隐藏在类中
+
+
 
         补充:
         1. ThreadShutDown           调用shutdown()命令后，处于悬挂队列中的任务还会得到执行吗？
