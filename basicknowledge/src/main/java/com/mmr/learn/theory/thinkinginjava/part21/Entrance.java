@@ -45,7 +45,8 @@ public class Entrance {
         31.EvenGenerator             第一个IntGenerator实现方案——出现了共享资源竞争问题
         32.SynchronizedEvenGenerator 解决共享资源竞争问题——synchronized
         33.MutexEvenGenerator        解决共享资源竞争问题——使用显示的Lock对象
-        34.AttemptLocking             Lock.lock()的使用场景
+        34.AttemptLocking            Lock.lock()的使用场景
+        35.AtomicityTest             滥用原子性概念的下场 【重点】
 
         补充:
         1. ThreadShutDown           调用shutdown()命令后，处于悬挂队列中的任务还会得到执行吗？
