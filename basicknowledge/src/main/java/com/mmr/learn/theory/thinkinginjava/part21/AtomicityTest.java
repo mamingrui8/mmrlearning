@@ -13,7 +13,7 @@ public class AtomicityTest implements Runnable{
     private volatile int i = 0;
 
     /**
-     * 如果不加synchronized,那么分析如下:
+     * 如果getValue()不加synchronized,那么分析如下:
      *   虽然"return 1"是一个原子性操作，但是在何时执行却是不确定的。
      *   比如程序在执行完evenIncrement()后，准备调用getValue()，但在执行"return i"方法之前，又被调用了一次evenIncrement()，
      *   结果导致i值处于不稳定的中间状态

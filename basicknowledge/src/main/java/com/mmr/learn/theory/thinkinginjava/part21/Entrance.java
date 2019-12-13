@@ -47,6 +47,8 @@ public class Entrance {
         33.MutexEvenGenerator        解决共享资源竞争问题——使用显示的Lock对象
         34.AttemptLocking            Lock.lock()的使用场景
         35.AtomicityTest             滥用原子性概念的下场 【重点】
+        36.SerialNumberGenerator     滥用原子性概念的下场  一个产生序列数字的类 (在非同步方法中使用volatile属性)
+        37.CircularSet               测试
 
         补充:
         1. ThreadShutDown           调用shutdown()命令后，处于悬挂队列中的任务还会得到执行吗？
