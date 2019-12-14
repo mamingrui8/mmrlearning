@@ -1,25 +1,33 @@
-package com.mmr.learn.theory.thinkinginjava.part21;
+package com.mmr.learn.theory.thinkinginjava.part21.practice13;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
- *
- * @author mamr
- * @date 2019/12/13 14:06
+ * 这个例子告诉我们:
+ * 如果待操作的域出现的写操作方法全部都是同步的，则没有必要将变量(比如本例中的serialNumber)使用volatile来修饰。
+ * 这是因为同步代码块会刷新主存，线程从CPU缓存中取出的域的值一定是最新的，没有可视性的问题，因此没有必要使用volatile。
  */
-public class SerialNumberChecker {
-    private static final int SIZE = 10;
-    private static CircularSet serials = new CircularSet(1000);
-    private static ExecutorService exec = Executors.newCachedThreadPool();
+class SerialNumberGenerator2 {
+    private static int serialNumber;
+    public synchronized static int nextSerialNumber() {
+        return serialNumber++;
+    }
+}
 
+public class E13_SerialNumberChecker2 {
+    private static final int SIZE = 10;
+    private static CircularSet serials =
+            new CircularSet(1000);
+    private static ExecutorService exec =
+            Executors.newCachedThreadPool();
     static class SerialChecker implements Runnable {
-        @Override
         public void run() {
             while(true) {
-                int serial = SerialNumberGenerator.nextSerialNumber();
-                if (serials.contains(serial)) {
+                int serial =
+                        SerialNumberGenerator2.nextSerialNumber();
+                if(serials.contains(serial)) {
                     System.out.println("Duplicate: " + serial);
                     System.exit(0);
                 }
@@ -27,19 +35,19 @@ public class SerialNumberChecker {
             }
         }
     }
-
-    public static void main(String[] args) throws Exception{
-        for (int i = 0; i < SIZE; i++) {
+    public static void main(String[] args) throws Exception {
+        for(int i = 0; i < SIZE; i++)
             exec.execute(new SerialChecker());
-        }
-        if (args.length > 0) {
+        if(args.length > 0) {
             TimeUnit.SECONDS.sleep(new Integer(args[0]));
             System.out.println("No duplicates detected");
             System.exit(0);
+        } else {
+            System.err.println("Provide a sleep time in sec.");
+            System.exit(1);
         }
     }
 }
-
 
 class CircularSet {
     private int[] array;

@@ -48,7 +48,14 @@ public class Entrance {
         34.AttemptLocking            Lock.lock()的使用场景
         35.AtomicityTest             滥用原子性概念的下场 【重点】
         36.SerialNumberGenerator     滥用原子性概念的下场  一个产生序列数字的类 (在非同步方法中使用volatile属性)
-        37.CircularSet               测试
+        37.SerialNumberChecker       测试SerialNumberGenerator，看看不加Synchronized，仅使用volatile，在多线程下，会产生怎样的后果。 (看得到，但取不到最新值)
+
+        -- 21.3.4 原子类
+        38.AtomicIntegerTest        使用AtomicInteger原子类来重写AtomicityTest类 (使用了模板方法模式)【重点】
+
+        -- 21.3.5 临界区
+        39.CriticalSection          1.比较将synchronized加载方法上与加载某一个代码块上的区别。2.如何把一个非保护类型的类，在其它类的控制和保护之下，应用于多线程的环境中。
+        40.ExplicitCriticalSection     补充CriticalSection，使用显示的Lock对象来创建临界区    //TODO 有疑问，与书上的结果不同
 
         补充:
         1. ThreadShutDown           调用shutdown()命令后，处于悬挂队列中的任务还会得到执行吗？
