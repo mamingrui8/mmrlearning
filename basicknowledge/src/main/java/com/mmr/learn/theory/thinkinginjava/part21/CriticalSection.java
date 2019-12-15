@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 1.比较将synchronized加载方法上与加载某一个代码块上的区别。
@@ -47,6 +48,23 @@ public class CriticalSection{
             e.printStackTrace();
         }
         System.out.println("pm1: " + pm1 + "\npm2: " + pm2);
+        System.exit(0);
+    }
+
+    static void testApproaches2(PairManager pman) {
+        ExecutorService exec = Executors.newCachedThreadPool();
+        //拼命的加数据
+        PairManipulator pm = new PairManipulator(pman);
+        //拼命的检查x和y是否相等
+        PairChecker pcheck = new PairChecker(pman);
+        exec.execute(pm);
+        exec.execute(pcheck);
+        try {
+            TimeUnit.MILLISECONDS.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("pm: " + pm);
         System.exit(0);
     }
 
@@ -105,15 +123,29 @@ class Pair {
  * PairManager是一个线程安全的类，它用来保护一个Pair对象
  */
 abstract class PairManager {
+    protected ReentrantLock lock = new ReentrantLock();
+
     AtomicInteger checkCounter = new AtomicInteger(0);
     protected Pair p = new Pair();
     private List<Pair> storage = Collections.synchronizedList(new ArrayList<>());
     /**
-     * synchronized直接加载方法上
+     * synchronized直接加载方法上 synchronized
      */
-    public synchronized Pair getPair() {
-        //Make a copy to keep the original safe:
-        return new Pair(p.getX(), p.getY());
+    public Pair getPair() {
+        boolean capture = lock.tryLock();
+        try {
+            if(capture) {
+                //System.out.println("执行了语句，此时captrue: " + capture);
+                //Make a copy to keep the original safe:
+                return new Pair(p.getX(), p.getY());
+            }else{
+                return null;
+            }
+        }finally {
+            if(capture) {
+                lock.unlock();
+            }
+        }
     }
     //本方法模拟一系列操作动作
     protected void store(Pair p) {
@@ -179,7 +211,10 @@ class PairChecker implements Runnable{
             //每次成功执行checkStatus()后，都递增checkCounter
             //System.out.println("执行检测...");
             pm.checkCounter.incrementAndGet();
-            pm.getPair().checkStatus();
+            Pair pair = pm.getPair();
+            if(pair != null) {
+                pair.checkStatus();
+            }
         }
     }
 }

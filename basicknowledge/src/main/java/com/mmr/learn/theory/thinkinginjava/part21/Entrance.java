@@ -55,7 +55,14 @@ public class Entrance {
 
         -- 21.3.5 临界区
         39.CriticalSection          1.比较将synchronized加载方法上与加载某一个代码块上的区别。2.如何把一个非保护类型的类，在其它类的控制和保护之下，应用于多线程的环境中。
-        40.ExplicitCriticalSection     补充CriticalSection，使用显示的Lock对象来创建临界区    //TODO 有疑问，与书上的结果不同
+        40.ExplicitCriticalSection     补充CriticalSection，使用显示的Lock对象来创建临界区
+
+        -- 21.3.7 线程本地存储
+        41.ThreadLocalVariableHolder
+
+        -- 21.4 终止任务
+        42.OrnamentalGarden         直接终止正在运行的任务
+        43.
 
         补充:
         1. ThreadShutDown           调用shutdown()命令后，处于悬挂队列中的任务还会得到执行吗？
