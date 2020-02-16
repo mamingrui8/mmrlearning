@@ -6,6 +6,5 @@ public class Bicycles extends Vehicle {
     public static void main(String[] args) {
         Car car = new Car();
         //car.run();
-        System.out.println(com.mmr.learn.theory.thinkinginjava.part5.practice11.Vehicle.class);
     }
 }

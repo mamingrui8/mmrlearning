@@ -50,12 +50,55 @@ public class Entrance {
         36.SerialNumberGenerator     滥用原子性概念的下场  一个产生序列数字的类 (在非同步方法中使用volatile属性)
         37.CircularSet               测试
 
+        -- 21.4 终结任务
+        38.Interrupting              Executor基本的interrupt()方法
+        39.CloseResource             解决因等待I/O操作导致系统锁死，但又因I/O操作不能中断的问题
+        40.NIOInterruption           使用nio类来解决中断I/O的问题
+        41.MultiLock                 同一个对象锁被任务多次获得
+        42.Interrupting2             使用ReentrantLock代替synchronized，中断那些在synchronized上看似不能中断的操作！
+        43.InterruptingIdiom         检查中断状态的惯用手法(interrupted)
+
+        -- 21.5 线程之间的协作
+        44.WaxOMatic
+        45.NotifyVsNotifyAll         notify()和notifyAll()的区别
+        46.Restaurant                "厨师与服务员"建模代码
+        47.WaxOMatic2                重写WaxOMatic，使用Condition来挂起和唤醒任务
+        wait()和notifyAll()有一个致命的问题，就是每次交互都需要握手(通知另一个任务是挂起,还是唤醒)
+        48.TestBlockingQueues        BlockingQueue 同步队列更轻松的解决wait()和notify()面临的问题
+        49.ToastOMatic               吐司BlockingQueue
+        50.PipedIO                   任务之间通过管道进行通信(输入/输出)
+
+        -- 哲学家问题
+        51.Chopstick                 筷子
+        52.Philosopher               哲学家
+        53.DeadlockingDiningPhilosopher 哲学家问题-死锁版本
+        54.FixedDiningPhilosophers   哲学家问题-防止死锁的版本
+
+        -- 21.7 新类库中的构件
+        55. CountDownLatchDemo       演示CountDownLatch   A任务执行完毕后才能执行B任务，否则B处于阻塞状态
+        56. HorseRace                演示CyclicBarrier    A任务与B任务并行执行，A需要运行10秒，B需要运行15秒，使用CyclicBarrier
+                                                         后，当时间过了10秒时，A任务进行阻塞状态，直到B执行完毕后，才一同结束。
+        57. DelayQueueDemo           演示了DelayQueue延迟队列的用法 包括DelayQueue take() 和poll()
+        58. PriorityBlockingQueueDemo
+        59. GreenhouseScheduler      演示了SchedulerExecutor
+        60. Pool,Fat,SemaphoreDemo   演示了Semaphore
+        61. ExchangerDemo            演示了Exchanger
+
+        -- 21.9 性能调优
+        62.SimpleMicroBenchmark      微基准测试 (不准确、有缺陷)
+        63.SynchronizationComparisons 并发性能测试 [重点]
+
         补充:
-        1. ThreadShutDown           调用shutdown()命令后，处于悬挂队列中的任务还会得到执行吗？
+        1. ThreadShutDown            调用shutdown()命令后，处于悬挂队列中的任务还会得到执行吗？
+        2. ThreadIOLock              任务获取到锁后，由于等待I/O操作被阻塞，那么锁会被释放吗？  答: 不会！
      */
 
     /*
         疑问:
         1. SingleThreadPool是如何维护它自己的悬挂任务队列(任务等待队列)？
+        2. 若任务已经执行完毕了，那么驱动任务的线程还会存在吗？经过多久会被回收呢？
      */
+    public static void main(String[] args) {
+
+    }
 }
