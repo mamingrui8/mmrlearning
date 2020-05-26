@@ -3,6 +3,7 @@ package com.mmr.learn.theory.thinkinginjava;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.lang.Nullable;
 
 /**
  * @author mamr
@@ -10,6 +11,10 @@ import org.springframework.core.io.ClassPathResource;
  */
 public class Test {
     public static void main(String[] args) {
-        BeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("beanFactoryTest.xml"));
+        t(null);
+    }
+
+    public static void t(@Nullable Test tt) {
+        System.out.println(123);
     }
 }

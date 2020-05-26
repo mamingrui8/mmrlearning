@@ -101,6 +101,9 @@ public class Entrance {
         -- 21.9 性能调优
         62.SimpleMicroBenchmark      微基准测试 (不准确、有缺陷)
         63.SynchronizationComparisons 并发性能测试 [重点]
+        64.Tester                    容器的性能测试
+        65.FastSimulation
+        66.ReaderWriteList             演示了ReadWriteLock的最基本用法
 
         补充:
         1. ThreadShutDown            调用shutdown()命令后，处于悬挂队列中的任务还会得到执行吗？

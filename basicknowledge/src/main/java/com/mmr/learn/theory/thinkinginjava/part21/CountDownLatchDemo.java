@@ -10,6 +10,10 @@ import java.util.concurrent.TimeUnit;
  * CountDownLatch的示例
  * TaskPortion属于前置任务，每次运行时都会等待一段时间用于模拟任务处理。当前置任务全部执行完毕后，等待任务WaitingTask才开始运行。
  * 所有的任务都使用了同一个在main()中定义的CountDownLatch对象。
+ * 主要有以下三个方法:
+ * 1. CountDownLatch countDown() 使计数器减一
+ * 2. CountDownLatch latch.await() 使当前线程阻塞，当且仅当计数器的值为0时，线程恢复成可执行态
+ * 3. new CountDownLatch(int SIZE)  初始化一个CountDownLatch对象，计数器的最大值为SIZE
  */
 public class CountDownLatchDemo {
     static final int SIZE = 5;
