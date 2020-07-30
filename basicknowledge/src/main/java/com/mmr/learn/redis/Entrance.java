@@ -10,6 +10,9 @@ package com.mmr.learn.redis;
  */
 public class Entrance {
     public static void main(String[] args){
-
+        /**
+         * lesson1 jedis相关应用
+         * lesson2 手写一个LRU
+         */
     }
 }
