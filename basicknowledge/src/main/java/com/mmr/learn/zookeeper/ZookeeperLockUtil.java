@@ -4,12 +4,14 @@ import com.mmr.utils.UUIDUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Zookeeper分布式锁
@@ -38,7 +40,7 @@ public class ZookeeperLockUtil implements Watcher {
     /**
      * 分布式锁路径的前缀
      */
-    private String prefixLockPath = "/zkLocks";
+    private String prefixLockPath = "/zkLocksWJN";
 
     /**
      * 分布式锁的唯一ID
@@ -83,17 +85,14 @@ public class ZookeeperLockUtil implements Watcher {
     /**
      * 获取分布式锁
      */
-    public void acquireDistributedLock() {
+    public void acquireDistributedLock() throws InterruptedException, TimeoutException, KeeperException {
         // zookeeper的节点要一级一级的自顶向下创建
         createRootNode();
         createLockRootNode();
 
-        try {
-            while (!tryLock()) {
-                waitForReleaseLock(previousNodeLockPath, 30000);
-            }
-        } catch (KeeperException | InterruptedException e) {
-            e.printStackTrace();
+        while (!tryLock()) {
+            System.out.println(Thread.currentThread().getName() + " 尝试获取锁失败，等待上一个服务释放锁 " + LocalDateTime.now());
+            waitForReleaseLock(previousNodeLockPath, 30000);
         }
     }
 
@@ -102,6 +101,7 @@ public class ZookeeperLockUtil implements Watcher {
      */
     private void releaseLock() {
         try {
+            System.out.println(Thread.currentThread().getName() + " 释放分布式锁, currentNodeLockPath->" + currentNodeLockPath);
             zookeeper.delete(currentNodeLockPath, -1);
             currentNodeLockPath = null;
             zookeeper.close();
@@ -116,15 +116,16 @@ public class ZookeeperLockUtil implements Watcher {
      * @param nodePath                   等待释放锁对应临时节点的相对路径
      * @param waitForPreviousLockRelease 等待释放锁的时间 不能超过一次Zookeeper会话的时间
      */
-    private boolean waitForReleaseLock(String nodePath, long waitForPreviousLockRelease) throws KeeperException, InterruptedException {
+    private void waitForReleaseLock(String nodePath, long waitForPreviousLockRelease) throws KeeperException, InterruptedException, TimeoutException {
         Stat stat = zookeeper.exists(prefixLockPath + "/" + lockId + "/" + nodePath, true);
         if (stat != null) {
             this.createdZookeeperNodeLatch = new CountDownLatch(1);
-            // TODO 如果等待超时怎么办
-            this.createdZookeeperNodeLatch.await(waitForPreviousLockRelease, TimeUnit.MILLISECONDS);
+            boolean await = this.createdZookeeperNodeLatch.await(waitForPreviousLockRelease, TimeUnit.MILLISECONDS);
             this.createdZookeeperNodeLatch = null;
+            if(!await) {
+                throw new TimeoutException("等待其它服务释放锁动作超时");
+            }
         }
-        return true;
     }
 
     /**
@@ -134,12 +135,17 @@ public class ZookeeperLockUtil implements Watcher {
         // 创建临时顺序节点
         // OPEN_ACL_UNSAFE指的是对节点操作时，无需考虑任何ACL权限控制
         try {
-            currentNodeLockPath = zookeeper.create(prefixLockPath + "/" + lockId + "/" + UUIDUtils.randomUUID(), "".getBytes(),
-                    ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+            if(StringUtils.isEmpty(currentNodeLockPath)) {
+                currentNodeLockPath = zookeeper.create(prefixLockPath + "/" + lockId + "/" + UUIDUtils.randomUUID(), "".getBytes(),
+                        ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+            }
+
             // 查看刚创建的节点有没有兄弟节点，是不是兄弟节点中最小的那个节点
             List<String> brotherNodes = zookeeper.getChildren(prefixLockPath + "/" + lockId, false);
+
             Collections.sort(brotherNodes);
-            if (currentNodeLockPath.equals(brotherNodes.get(0))) {
+            if (currentNodeLockPath!=null && !CollectionUtils.isEmpty(brotherNodes)
+                    && currentNodeLockPath.split(prefixLockPath + "/" + lockId + "/")[1].equals(brotherNodes.get(0))) {
                 // 当前节点就是最小节点，意味着成功获取到锁
                 return true;
             }
@@ -181,13 +187,44 @@ public class ZookeeperLockUtil implements Watcher {
         }
     }
 
-    public static void main(String[] args) {
-        new Thread(()->{
-            Thread.currentThread().setName("t1");
-            ZookeeperLockUtil zookeeperLockUtil = new ZookeeperLockUtil("ppp123");
-            zookeeperLockUtil.acquireDistributedLock();
-        }).start();
+    public static void main(String[] args) throws InterruptedException {
+        Thread t1 = new Thread("t1"){
+            @Override
+            public void run() {
+                System.out.println("t1 run()...");
+                ZookeeperLockUtil zookeeperLockUtil = new ZookeeperLockUtil("business1");
 
-        new Thread();
+                try {
+                    System.out.println("t1 尝试获取分布式锁");
+                    zookeeperLockUtil.acquireDistributedLock();
+                    System.out.println("t1 模拟执行业务代码,等待15秒...");
+                    TimeUnit.SECONDS.sleep(15);
+                    System.out.println("t1 释放分布式锁");
+                    zookeeperLockUtil.releaseLock();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        t1.start();
+        TimeUnit.SECONDS.sleep(5);
+        System.out.println("=========");
+        Thread t2 = new Thread("t2"){
+            @Override
+            public void run() {
+                System.out.println("t2 run()...");
+                ZookeeperLockUtil zookeeperLockUtil = new ZookeeperLockUtil("business1");
+                try {
+                    System.out.println("t2 尝试获取分布式锁");
+                    zookeeperLockUtil.acquireDistributedLock();
+                    System.out.println("t2 模拟执行业务代码");
+                    System.out.println("t2 释放分布式锁");
+                    zookeeperLockUtil.releaseLock();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        t2.start();
     }
 }
