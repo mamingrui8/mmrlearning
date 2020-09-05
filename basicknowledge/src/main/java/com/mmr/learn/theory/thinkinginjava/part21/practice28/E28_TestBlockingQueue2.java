@@ -1,7 +1,6 @@
 package com.mmr.learn.theory.thinkinginjava.part21.practice28;
 
 import com.mmr.learn.theory.thinkinginjava.part21.LifeOff;
-import com.sun.tools.internal.ws.wsdl.document.soap.SOAPUse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
