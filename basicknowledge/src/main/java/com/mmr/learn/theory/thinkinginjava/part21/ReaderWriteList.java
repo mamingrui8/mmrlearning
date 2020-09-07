@@ -1,7 +1,5 @@
 package com.mmr.learn.theory.thinkinginjava.part21;
 
-import com.sun.tools.internal.ws.wsdl.document.soap.SOAPUse;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
