@@ -15,7 +15,7 @@ public class Client {
         handler =new DaoLogHandler(userDao);
         AbstractUserDAO proxy = null;
 
-        // 抽象主题角色
+        // 生成的代理类与实际主题角色(UserDao)没有直接绑定,它直接绑定了invocationHandler，由handler操控实际主题角色
         proxy = (AbstractUserDAO)Proxy.newProxyInstance(AbstractUserDAO.class.getClassLoader(), new Class[]{AbstractUserDAO.class}, handler);
         proxy.findUserById("小男");
 
