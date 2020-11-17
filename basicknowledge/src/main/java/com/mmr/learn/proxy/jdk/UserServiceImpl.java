@@ -1,4 +1,4 @@
-package com.mmr.learn.proxy;
+package com.mmr.learn.proxy.jdk;
 
 /**
  * @author mamr

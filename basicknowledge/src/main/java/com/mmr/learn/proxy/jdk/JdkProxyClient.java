@@ -1,9 +1,5 @@
 package com.mmr.learn.proxy.jdk;
 
-import com.mmr.learn.proxy.UserService;
-import com.mmr.learn.proxy.UserServiceImpl;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
