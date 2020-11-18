@@ -8,19 +8,21 @@ import java.time.LocalDateTime;
 
 /**
  * 拦截器 用于方法的拦截和回调
+ * <p>
+ * 自定义的拦截类必须实现MethodInterceptor接口
  *
  * @author mamr
  * @date 2020/11/17 22:50
  */
-public class LogInterceptor implements MethodInterceptor {
+public class LogInterceptor1 implements MethodInterceptor {
 
     /**
      * @param realObject  要进行增强的对象 原始对象 (比如当前案例中的UserDao)
      * @param method      需要拦截的方法
      * @param args        参数列表，如果是基本数据类型，那就需要传入封装类型，如int->Integer, long-Long, double->Double
      * @param methodProxy 对方法的代理
-     * @return
-     * @throws Throwable
+     * @return 执行结果
+     * @throws Throwable 调用时出现的异常
      */
     @Override
     public Object intercept(Object realObject, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
@@ -33,10 +35,10 @@ public class LogInterceptor implements MethodInterceptor {
     }
 
     private void before() {
-        System.out.println(String.format("log start time [%s] ", LocalDateTime.now()));
+        System.out.println(String.format("[LogInterceptor1] log start time [%s] ", LocalDateTime.now()));
     }
 
     private void after() {
-        System.out.println(String.format("log end time [%s] ", LocalDateTime.now()));
+        System.out.println(String.format("[LogInterceptor1] log end time [%s] ", LocalDateTime.now()));
     }
 }

@@ -4,7 +4,8 @@ package com.mmr.learn.proxy.jdk;
  * @author mamr
  * @date 2020/11/16 9:29 下午
  */
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService
+{
     public void select() {
         System.out.println("查询 selectById");
     }
