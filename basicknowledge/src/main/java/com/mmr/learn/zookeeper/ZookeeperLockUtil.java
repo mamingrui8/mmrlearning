@@ -27,7 +27,7 @@ public class ZookeeperLockUtil implements Watcher {
     private ZooKeeper zookeeper;
 
     /**
-     * 创建Zookeeper Node的信号量
+     * 创建Zookeeper Node的信号量  FIXME 应该对每次请求分别创建信号量
      */
     private CountDownLatch createdZookeeperNodeLatch;
 
@@ -75,6 +75,8 @@ public class ZookeeperLockUtil implements Watcher {
      */
     @Override
     public void process(WatchedEvent event) {
+        // FIXME 写的不够严谨，应该区分event的类型、出现变化的节点也需要判断是不是当前观察的目标节点
+
         if (Event.KeeperState.SyncConnected == event.getState()) {
             if (createdZookeeperNodeLatch != null) {
                 createdZookeeperNodeLatch.countDown();

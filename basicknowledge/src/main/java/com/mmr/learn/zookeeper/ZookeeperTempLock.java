@@ -18,7 +18,7 @@ public class ZookeeperTempLock {
     /**
      * 与Zookeeper成功建立连接的信号标志
      */
-    private CountDownLatch connectedSemaphore = new CountDownLatch(1);
+    private final CountDownLatch connectedSemaphore = new CountDownLatch(1);
 
     /**
      * 创建分布式锁的过程中，开始和等待请求创建分布式锁的信号标志
@@ -55,6 +55,8 @@ public class ZookeeperTempLock {
 
     public ZookeeperTempLock() {
         try {
+            // 在与zookeeper连接时，告诉zookeeper，当前服务有一个监听器
+            // 那么接下来对zookeeper内的任意一个节点进行监听后，一旦发现该节点有操作，则zookeeper就会回调这个监听器
             this.zookeeper = new ZooKeeper("192.168.0.93:2181", 5000, new ZookeeperWatcher());
             try {
                 connectedSemaphore.await();
@@ -98,14 +100,24 @@ public class ZookeeperTempLock {
         } catch (Exception e) {
             // 若临时节点已存在，则会抛出异常: NodeExistsException
             while (true) {
-                // 相当于给znode注册了一个监听器，查看监听器是否存在
                 try {
+                    // 查看目标节点是否存在
+                    // 并且会给目标节点(对应的就是这个path)注册了一个监听器
                     Stat stat = zookeeper.exists(path, true);
                     if (stat != null) {
+                        // 如果这个节点存在，那么我们就要充分的利用监听器了
+                        // 一开始，执行线程肯定是会被阻塞住的
+
                         this.creatingSemaphore = new CountDownLatch(1);
                         this.creatingSemaphore.await(DISTRIBUTED_KEY_OVERDUE_TIME, TimeUnit.MILLISECONDS);
                         this.creatingSemaphore = null;
+
+                        // 但是，当zk发现这个节点被操作，就会回调我们事先定义好的监听器。我们就可以在监听器内部，检查本次操作的事件的类型，
+                        // 如果是“删除操作”，那么就很有可能是有人在释放锁。所以此时恢复执行线程，再次尝试加锁即可。
                     }
+
+                    // 如果这个临时节点不存在，那就相当于当前没有人加锁
+                    // 所以就趁着这个时候，赶紧再次尝试加锁
                     zookeeper.create(path, "".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
                     return true;
                 } catch (Exception ex) {
@@ -144,6 +156,8 @@ public class ZookeeperTempLock {
             if (Event.KeeperState.SyncConnected == event.getState()) {
                 connectedSemaphore.countDown();
             }
+
+            // 这里应该加上逻辑: 是不是指定的节点、是不是删除事件
 
             if (creatingSemaphore != null) {
                 creatingSemaphore.countDown();

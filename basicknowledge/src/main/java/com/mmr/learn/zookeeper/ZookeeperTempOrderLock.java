@@ -26,7 +26,7 @@ public class ZookeeperTempOrderLock implements Watcher {
     /**
      * 锁的唯一标识
      */
-    private String lockId;
+    private final String lockId;
 
     /**
      * 与Zookeeper建立会话的信号量
@@ -41,7 +41,7 @@ public class ZookeeperTempOrderLock implements Watcher {
     /**
      * 分布式锁路径前缀
      */
-    private String locksRootPath = "/locks";
+    private final String locksRootPath = "/locks";
 
     /**
      * 排在前面的节点的路径
@@ -68,6 +68,11 @@ public class ZookeeperTempOrderLock implements Watcher {
         }
     }
 
+    /**
+     * 监听器的具体业务逻辑
+     *
+     * @param event 监听到的事件
+     */
     @Override
     public void process(WatchedEvent event) {
         if (Event.KeeperState.SyncConnected == event.getState()) {
@@ -132,8 +137,11 @@ public class ZookeeperTempOrderLock implements Watcher {
      * @param waitTime 等待时长 单位:毫秒
      */
     private boolean waitForLock(String nodePath, long waitTime) throws KeeperException, InterruptedException {
+        // 查看等待的节点是否存在 并且对这个节点注册一个监听器
         Stat stat = zookeeper.exists(locksRootPath + "/" + nodePath, true);
+
         if (stat != null) {
+            // 如果存在，那就没办法了，只能等呗
             this.creatingLatch = new CountDownLatch(1);
             this.creatingLatch.await(waitTime, TimeUnit.MILLISECONDS);
             this.creatingLatch = null;
